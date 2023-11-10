@@ -1,3 +1,23 @@
 body {
   background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 }
+
+/* .all-containers {
+  background: whitesmoke
+} */
+
+.title-container{
+  background: whitesmoke
+}
+
+.past-trips-container {
+  background: whitesmoke
+}
+
+.upcoming-trips-container {
+  background: whitesmoke
+}
+
+.pending-trips-container {
+  background: whitesmoke
+}
