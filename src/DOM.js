@@ -85,7 +85,7 @@ const renderMoney = (trips) => {
           <p>Destination: ${destination.destination}</p>
           <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
           <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
-          <p>${destination.image}</p>
+          <img src="${destination.image}" alt="Destination Image" class="fit-image">
           <p>Alt: ${destination.alt}</p>
         </div>`;
     }
