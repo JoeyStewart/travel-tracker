@@ -19,7 +19,8 @@ body {
 .past-trips-container,
 .upcoming-trips-container,
 .pending-trips-container,
-.money-spent-container {
+.money-spent-container,
+.destination-container {
   display: flex;
   flex-direction: column;
   align-items: center;
