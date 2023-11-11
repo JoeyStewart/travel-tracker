@@ -1,10 +1,10 @@
 import './css/styles.css';
 import './images/turing-logo.png'
-import { fetchTripsData } from './apiCalls';
+import { fetchTripsData, fetchDestinationData } from './apiCalls';
 import { renderApprovedTrips, renderPendingTrips, renderPastTrips } from './DOM'
 
 window.addEventListener('load', () => {
-    Promise.all([fetchTripsData()])
+    Promise.all([fetchTripsData(), fetchDestinationData()])
       .then((data) => {
         const approvedTripData = data[0];
         const pendingTripData = data[0];
