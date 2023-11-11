@@ -1,18 +1,18 @@
 import './css/styles.css';
 import './images/turing-logo.png'
 import { fetchTripsData } from './apiCalls';
-import { renderApprovedTrips, renderPendingTrips } from './DOM'
+import { renderApprovedTrips, renderPendingTrips, renderPastTrips } from './DOM'
 
 window.addEventListener('load', () => {
     Promise.all([fetchTripsData()])
       .then((data) => {
         const approvedTripData = data[0];
         const pendingTripData = data[0];
-        // const pastTripData = data[2];
+        const pastTripData = data[0];
         // const moneySpent = data[3];
-        populateDOM(approvedTripData);
-        populateDOM2(pendingTripData);
-        // populateDOM3(pastTripData);
+        populateApproved(approvedTripData);
+        populatePending(pendingTripData);
+        populatePast(pastTripData);
         // populateDOM4(moneySpent);
       })
       .catch((error) => {
@@ -20,11 +20,15 @@ window.addEventListener('load', () => {
       });
   });
 
-  const populateDOM = (data) => {
+const populateApproved = (data) => {
     renderApprovedTrips(data);
-  };
+}
 
-  const populateDOM2 = (data) => {
+const populatePending = (data) => {
     renderPendingTrips(data);
-  }
+}
+
+const populatePast = (data) => {
+    renderPastTrips(data)
+}
   

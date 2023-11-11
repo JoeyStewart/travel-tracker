@@ -1,11 +1,11 @@
 //querySelectors
 const upcomingContent = document.querySelector('.upcoming-content')
 const pendingContent = document.querySelector('.pending-content')
+const pastContent = document.querySelector('.past-content')
 
 //functions
 const renderApprovedTrips = (trips) => {
     upcomingContent.classList.remove('hidden')
-    
     upcomingContent.innerHTML = '';
     
     const approvedTrips = trips.filter((trip) => trip.status === 'approved');
@@ -25,6 +25,28 @@ const renderApprovedTrips = (trips) => {
         </div>`
   }
 }
+
+const renderPastTrips = (trips) => {
+    pastContent.classList.remove('hidden');
+    pastContent.innerHTML = '';
+  
+    const mostRecentPastTrip = trips
+      .filter(trip => new Date(trip.date) < new Date())
+      .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+  
+    if (mostRecentPastTrip) {
+      pastContent.innerHTML += `
+        <div class="trip-info">
+          <p>Trip ID: ${mostRecentPastTrip.id}</p>
+          <p>User ID: ${mostRecentPastTrip.userID}</p>
+          <p>Destination ID: ${mostRecentPastTrip.destinationID}</p>
+          <p>Date: ${mostRecentPastTrip.date}</p>
+          <p>Duration: ${mostRecentPastTrip.duration}</p>
+          <p>Status: ${mostRecentPastTrip.status}</p>
+          <p>Suggested Activities: ${mostRecentPastTrip.suggestedActivities}</p>
+        </div>`;
+    }
+  };
 
 const renderPendingTrips = (trips) => {
     pendingContent.classList.remove('hidden')
@@ -51,5 +73,6 @@ const renderPendingTrips = (trips) => {
 
 export {
     renderApprovedTrips,
-    renderPendingTrips
+    renderPendingTrips,
+    renderPastTrips
 }
