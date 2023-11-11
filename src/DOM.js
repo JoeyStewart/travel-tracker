@@ -1,4 +1,4 @@
-import {fetchTripsData} from './apiCalls.js'
+
 
 
 const upcomingContent = document.querySelector('.upcoming-content')
