@@ -1,7 +1,7 @@
 import './css/styles.css';
 import './images/turing-logo.png'
 import { fetchTripsData, fetchDestinationData } from './apiCalls';
-import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney } from './DOM'
+import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo } from './DOM'
 
 window.addEventListener('load', () => {
     Promise.all([fetchTripsData(), fetchDestinationData()])
@@ -10,10 +10,12 @@ window.addEventListener('load', () => {
         const pendingTripData = data[0];
         const pastTripData = data[0];
         const moneySpent = data[1];
+        const destinationInfo = data[1];
         populateApproved(approvedTripData);
         populatePending(pendingTripData);
         populatePast(pastTripData);
-        populateMoney(moneySpent);
+        populateDestinationInfo(destinationInfo)
+        // populateMoney(moneySpent);
       })
       .catch((error) => {
         console.error("An error occurred:", error);
@@ -32,6 +34,10 @@ const populatePast = (data) => {
     renderPastTrips(data)
 }
 
-const populateMoney = (data) => {
-    renderMoney(data)
+// const populateMoney = (data) => {
+//     renderMoney(data)
+// }
+
+const populateDestinationInfo = (data) => {
+    renderDestinationInfo(data)
 }
