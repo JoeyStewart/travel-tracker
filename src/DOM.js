@@ -1,8 +1,7 @@
-
-
-
+//querySelectors
 const upcomingContent = document.querySelector('.upcoming-content')
 
+//functions
 const renderApprovedTrips = (trips) => {
     upcomingContent.classList.remove('hidden')
     
@@ -10,7 +9,7 @@ const renderApprovedTrips = (trips) => {
     
     const approvedTrips = trips.filter((trip) => trip.status === 'approved');
         approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-   
+    
     if (approvedTrips.length > 0) {
       const mostRecentApprovedTrip = approvedTrips[0];
       upcomingContent.innerHTML += `
