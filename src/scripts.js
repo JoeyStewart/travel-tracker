@@ -1,11 +1,26 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
+import { fetchTripsData } from './apiCalls';
+import { renderApprovedTrips } from './DOM'
 
+window.addEventListener('load', () => {
+    Promise.all([fetchTripsData()])
+      .then((data) => {
+        const ApprovedTripData = data[0];
+        // const pendingTripData = data[1];
+        // const pastTripData = data[2];
+        // const moneySpent = data[3];
+        populateDOM(ApprovedTripData);
+        // populateDOM2(pendingTripData );
+        // populateDOM3(pastTripData);
+        // populateDOM4(moneySpent);
+      })
+      .catch((error) => {
+        console.error("An error occurred:", error);
+      });
+  });
 
-console.log('This is the JavaScript entry file - your code begins here.');
+  const populateDOM = (data) => {
+    renderApprovedTrips(data);
+  };
+  
