@@ -1,4 +1,4 @@
-export const fetchUserData = () => {
+export const fetchTripsData = () => {
     return fetch("http://localhost:3001/api/v1/trips")
       .then((response) => {
         if (!response.ok) {
