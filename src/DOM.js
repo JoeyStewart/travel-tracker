@@ -2,7 +2,7 @@
 const upcomingContent = document.querySelector('.upcoming-content')
 const pendingContent = document.querySelector('.pending-content')
 const pastContent = document.querySelector('.past-content')
-
+const moneyContent = document.querySelector('.money-content')
 //functions
 const renderApprovedTrips = (trips) => {
     upcomingContent.classList.remove('hidden')
@@ -71,8 +71,29 @@ const renderPendingTrips = (trips) => {
   }
 }
 
+//Temporary
+//Only used to display destination object
+const renderMoney = (trips) => {
+    console.log(trips[0])
+    moneyContent.classList.remove('hidden');
+    moneyContent.innerHTML = '';
+    if (trips.length > 0) {
+        const destination = trips[0];
+        moneyContent.innerHTML += `
+        <div class="money-info">
+          <p>Destination ID: ${destination.id}</p>
+          <p>Destination: ${destination.destination}</p>
+          <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
+          <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
+          <p>${destination.image}</p>
+          <p>Alt: ${destination.alt}</p>
+        </div>`;
+    }
+};
+
 export {
     renderApprovedTrips,
     renderPendingTrips,
-    renderPastTrips
+    renderPastTrips,
+    renderMoney
 }
