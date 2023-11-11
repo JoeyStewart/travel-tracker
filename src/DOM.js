@@ -7,7 +7,8 @@ const renderApprovedTrips = (trips) => {
     upcomingContent.classList.remove('hidden')
     
     upcomingContent.innerHTML = '';
-    trips.forEach((trip) => {
+    if (trips.length > 0) {
+        const trip= trips[0];
     upcomingContent.innerHTML += `
     <p>id: ${trip.id}</p>
     <p>userID: ${trip.userID}</p>
@@ -17,7 +18,7 @@ const renderApprovedTrips = (trips) => {
     <p>status: ${trip.status}</p>
     <p>activites: ${trip.suggestedActivites}</p>
     `;
-  })
+  }
 }
 
 export {
