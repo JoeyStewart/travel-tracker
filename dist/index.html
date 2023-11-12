@@ -9,10 +9,23 @@
 <body>
   <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->
   <section class="title-container">
-    <h1 class="title">Travel Tracker</h1>
+    <h1 class="title">Tripageddon: Schedule Your Final Destination</h1>
     <section class="title-sign"></section>
+  </section>  
+  <section class="inputs">
+  <p class="dashboard">Book Your Next Trip</p>
+    <div class="form-container-hidden">
+      <section class="form hidden">
+        <label class="input-label" for="date">Date</label>
+        <input class="input-box date-input" name="date" type="date" id="date" aria-label="Date" placeholder="YYYY-MM-DD">
+        <label class="input-label" for="number-of-steps">Destinations</label>
+        <input class="input-box num-steps-input" name="numSteps" type="text" id="number-of-steps" aria-label="Number of Steps" placeholder="Enter Destination">
+        <label class="input-label" for="travelers">Number of Travelers</label>
+        <input class="input-box travelers-input" name="travelers" type="text" id="minutes-active" aria-label="Minutes Active" placeholder="# of Travelers">
+        <button class="submit-button" aria-label="Submit">Submit</button>
+      </section>
+    </div>
   </section>
-  <p class="dashboard">Dashboard</p>
   <section class="trip-containers-wrapper">
     <section class="past-trips-container">
       <h2 class="past-trips">Past Trips</h2>
