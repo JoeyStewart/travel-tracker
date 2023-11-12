@@ -75,7 +75,6 @@ const renderPendingTrips = (trips) => {
 //Temporary
 //Only used to display destination object
 const renderDestinationInfo = (trips) => {
-    console.log(trips[0])
     destinationContent.classList.remove('hidden');
     destinationContent.innerHTML = '';
     if (trips.length > 0) {
@@ -92,27 +91,33 @@ const renderDestinationInfo = (trips) => {
     }
 };
 
-const renderMoney = (trips) => {
-    moneyContent.classList.remove('hidden')
+const renderMoney = (trips, destinations) => {
+    moneyContent.classList.remove('hidden');
     moneyContent.innerHTML = '';
-    
-    const approvedTrips = trips.filter((trip) => trip.status === 'approved');
-        approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    if (approvedTrips.length > 0) {
-      const mostRecentApprovedTrip = approvedTrips[0];
-      moneyContent.innerHTML += `
-        <div class="trip-info">
-          <p>Trip ID: ${mostRecentApprovedTrip.id}</p>
-          <p>User ID: ${mostRecentApprovedTrip.userID}</p>
-          <p>Destination ID: ${mostRecentApprovedTrip.destinationID}</p>
-          <p>Date: ${mostRecentApprovedTrip.date}</p>
-          <p>Duration: ${mostRecentApprovedTrip.duration}</p>
-          <p>Status: ${mostRecentApprovedTrip.status}</p>
-          <p>Suggested Activities: ${mostRecentApprovedTrip.suggestedActivities}</p>
-        </div>`
-  }
-}
+
+    let totalCost = 0;
+
+    trips.forEach((trip) => {
+        const destination = destinations.find((dest) => dest.id === trip.destinationID);
+
+        if (destination) {
+            const lodging = destination.estimatedLodgingCostPerDay * trip.duration;
+            const tripCost = lodging + destination.estimatedFlightCostPerPerson;
+
+            // moneyContent.innerHTML += `
+            //     <div class="trip-info">
+            //       <p>Total cost for ${destination.destination}: $${tripCost.toFixed(2)}</p>
+            //     </div>`;
+
+            totalCost += tripCost;
+        }
+    });
+    moneyContent.innerHTML += `
+        <div class="overall-total">
+          <p>Overall Total Cost: $${totalCost.toFixed(2)}</p>
+        </div>`;
+};
+
 
 
 export {
