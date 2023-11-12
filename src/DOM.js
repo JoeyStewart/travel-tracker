@@ -85,7 +85,7 @@ const renderDestinationInfo = (trips) => {
           <p>Destination: ${destination.destination}</p>
           <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
           <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
-          <img src="${destination.image}" alt="Destination Image" class="fit-image">
+          <img src="${destination.image}" alt="destination-image" class="fit-image">
           <p>Alt: ${destination.alt}</p>
         </div>`;
     }
@@ -98,7 +98,9 @@ const renderMoney = (trips, destinations) => {
     let totalCost = 0;
 
     trips.forEach((trip) => {
-        const destination = destinations.find((dest) => dest.id === trip.destinationID);
+      const destination = destinations.find((dest) => {
+          return new Date(trip.date) > new Date(new Date() - 365 * 24 * 60 * 60 * 1000) && dest.id === trip.destinationID;
+      });
 
         if (destination) {
             const lodging = destination.estimatedLodgingCostPerDay * trip.duration;
@@ -111,7 +113,7 @@ const renderMoney = (trips, destinations) => {
             //     </div>`;
 
             totalCost += agencyFee;
-        }
+        } 
     });
     moneyContent.innerHTML += `
         <div class="overall-total">
