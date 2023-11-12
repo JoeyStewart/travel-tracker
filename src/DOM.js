@@ -102,11 +102,12 @@ const renderMoney = (trips, destinations) => {
 
         if (destination) {
             const lodging = destination.estimatedLodgingCostPerDay * trip.duration;
-            const tripCost = lodging + destination.estimatedFlightCostPerPerson;
+            const flightCost = destination.estimatedFlightCostPerPerson * trip.travelers;
+            const tripCost = lodging + flightCost
             const agencyFee = (tripCost * .10) + tripCost
             // moneyContent.innerHTML += `
             //     <div class="trip-info">
-            //       <p>Total cost for ${destination.destination}: $${tripCost.toFixed(2)}</p>
+            //       <p>Total cost for ${destination.destination}: $${agencyFee.toFixed(2)}</p>
             //     </div>`;
 
             totalCost += agencyFee;
