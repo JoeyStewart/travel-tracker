@@ -106,7 +106,7 @@ const renderMoney = (trips, destinations) => {
             const agencyFee = (tripCost * .10) + tripCost
             // moneyContent.innerHTML += `
             //     <div class="trip-info">
-            //       <p>Total cost for ${destination.destination}: $${tripCost.toFixed(2)}</p>
+            //       <p>Total cost for ${destination.destination}: $${agencyFee.toFixed(2)}</p>
             //     </div>`;
 
             totalCost += agencyFee;
