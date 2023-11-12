@@ -9,7 +9,10 @@ window.addEventListener('load', () => {
         const approvedTripData = data[0];
         const pendingTripData = data[0];
         const pastTripData = data[0];
-        const moneySpent = data[0];//Should have index of 0 AND 1 later when calculating total cost
+        const moneySpent = {
+            trips: data[0],
+            destinations: data[1],
+          };
         const destinationInfo = data[1];
         populateApproved(approvedTripData);
         populatePending(pendingTripData);
@@ -35,8 +38,10 @@ const populatePast = (data) => {
 }
 
 const populateMoney = (data) => {
-    renderMoney(data)
-}
+    const tripsData = data.trips;
+    const destinationData = data.destinations;
+    renderMoney(tripsData, destinationData);
+};
 
 const populateDestinationInfo = (data) => {
     renderDestinationInfo(data)
