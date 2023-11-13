@@ -8,6 +8,12 @@ const destinationInput = document.querySelector(".destinations-input")
 const travelersInput = document.querySelector(".travelers-input")
 const durationInput = document.querySelector(".duration-input")
 const submitButton = document.querySelector(".submit-button")
+const userPageView = document.querySelector(".user-page")
+const loginPageView = document.querySelector(".login-page")
+const loginButton = document.querySelector(".login-button")
+
+
+loginButton.addEventListener('click', loginPage)
 
 
 console.log(dateInput)
@@ -60,6 +66,33 @@ window.addEventListener('load', () => {
       });
   });
 
+// logInBtn.addEventListener('click', () => {
+//   const userNameRegEx = /^(traveler([1-9]|[1-4][0-9]|50)|agent)$/;
+  
+//     if (userNameRegEx.test(usernameInput.value) && passwordInput.value === 'travel') {
+//     closeModals();
+//     logInError.hidden = true;
+  
+//     if (usernameInput.value === 'agent') {
+//       fetchGetAll()
+//         .then((data) => {
+//           handleNavigation('agent');
+//           setAgentUser(data, true);
+//         })
+//         .catch((err) => console.log(err));
+//     } else {
+//       const userId = usernameInput.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
+//       fetchGetAll(userId)
+//         .then((data) => {
+//           destinations = data[2].destinations;
+//           const trips = makeTripArray(data[1].trips, userId);
+//           currentUser = new User(data[0], trips);
+//         })
+//         .catch((err) => console.log(err));
+//     }
+//   }
+// });
+
 const populateApproved = (data) => {
     renderApprovedTrips(data);
 }
@@ -86,3 +119,8 @@ function generateRandomId() {
   return Math.floor(Math.random() * (1000000)) + 300; // Adjust the range as needed
 }
 
+
+function loginPage() {
+  userPageView.classList.remove("hidden");
+  loginPageView.classList.add("hidden");
+}
