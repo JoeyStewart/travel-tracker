@@ -1,7 +1,7 @@
 import './css/styles.css';
 import './images/turing-logo.png'
 import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
-import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo } from './DOM'
+import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo} from './DOM'
 
 const dateInput = document.querySelector(".date-input")
 const destinationInput = document.querySelector(".destinations-input")
@@ -13,7 +13,6 @@ const loginPageView = document.querySelector(".login-page")
 const loginButton = document.querySelector(".login-button")
 
 
-// loginButton.addEventListener('click', loginPage)
 
 
 console.log(dateInput)
@@ -67,14 +66,24 @@ window.addEventListener('load', () => {
   });
 
 loginButton.addEventListener('click', () => {
-  const userNameRegEx = /^(traveler([1-9]|[1-4][0-9]|50))$/;
-  const usernameInput = document.getElementById('user-name');
-  const passwordInput = document.getElementById('pass-word');
+  const submittedUserName = /^(traveler([1-9]|[1-4][0-9]|50))$/;
+  const username = document.getElementById('user-name');
+  const password = document.getElementById('pass-word');
   
-    if (userNameRegEx.test(usernameInput.value) && passwordInput.value === 'travel') {
+    if (submittedUserName.test(username.value) && password.value === 'travel') {
     userPageView.classList.remove("hidden");
     loginPageView.classList.add("hidden");
+    let userID = username.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
+    // findUserID(userID)
+    console.log(userID)
+    } else if(username.value === "" && password.value === ""){
+      alert("Submit a username and password to login")
+    } else {
+      alert("Your username of password may be wrong")
     }
+    username.value = "";
+    password.value = "";
+   
     // } else {
     //   const userId = usernameInput.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
     //   fetchGetAll(userId)
@@ -87,35 +96,36 @@ loginButton.addEventListener('click', () => {
     
     // }
 });
-
 const populateApproved = (data) => {
-    renderApprovedTrips(data);
+  renderApprovedTrips(data);
 }
 
 const populatePending = (data) => {
-    renderPendingTrips(data);
+  renderPendingTrips(data);
 }
 
 const populatePast = (data) => {
-    renderPastTrips(data)
+  renderPastTrips(data)
 }
 
 const populateMoney = (data) => {
-    const tripsData = data.trips;
-    const destinationData = data.destinations;
-    renderMoney(tripsData, destinationData);
+  const tripsData = data.trips;
+  const destinationData = data.destinations;
+  renderMoney(tripsData, destinationData);
 };
 
 const populateDestinationInfo = (data) => {
-    renderDestinationInfo(data)
+  renderDestinationInfo(data)
 }
 
-function generateRandomId() {
+const generateRandomId = () => {
   return Math.floor(Math.random() * (1000000)) + 300; // Adjust the range as needed
 }
 
+// const findUserID = (id) => {
+//   userID = id
+//   console.log(userID, "You did it")
+//   return userID
+// }
+// console.log(userID, "Will it work")
 
-function loginPage() {
-  userPageView.classList.remove("hidden");
-  loginPageView.classList.add("hidden");
-}
