@@ -1,7 +1,42 @@
 import './css/styles.css';
 import './images/turing-logo.png'
-import { fetchTripsData, fetchDestinationData } from './apiCalls';
+import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
 import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo } from './DOM'
+
+const dateInput = document.querySelector(".date-input")
+const destinationInput = document.querySelector(".destinations-input")
+const travelersInput = document.querySelector(".travelers-input")
+const durationInput = document.querySelector(".duration-input")
+const submitButton = document.querySelector(".submit-button")
+
+
+console.log(dateInput)
+submitButton.addEventListener("click", () => {
+  
+
+  let tripObject = {
+    id: generateRandomId(),
+    userID: generateRandomId(), 
+    destinationID: parseInt(destinationInput.value),
+    travelers: parseInt(travelersInput.value) ,
+    date: dateInput.value,
+    duration: parseInt(durationInput.value),
+    status: "pending",
+    suggestedActivities: [],
+    }
+
+  if (
+    !dateInput.value || 
+    !destinationInput.value || 
+    !durationInput.value ||
+    !travelersInput.value)
+   {
+    alert("You must fill all information fields correctly before submitting");
+  } else {
+    // renderPendingTrips(tripObject);
+    postTripData(tripObject);
+  }
+});
 
 window.addEventListener('load', () => {
     Promise.all([fetchTripsData(), fetchDestinationData()])
@@ -46,3 +81,8 @@ const populateMoney = (data) => {
 const populateDestinationInfo = (data) => {
     renderDestinationInfo(data)
 }
+
+function generateRandomId() {
+  return Math.floor(Math.random() * (1000000)) + 300; // Adjust the range as needed
+}
+

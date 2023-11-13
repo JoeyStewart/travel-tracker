@@ -3,11 +3,21 @@ body {
 }
 
 .title-container{
-  background: whitesmoke
+  background: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.dashboard {
-  background: whitesmoke
+.dashboard,
+.form-container-hidden{
+  background: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 .trip-containers-wrapper {

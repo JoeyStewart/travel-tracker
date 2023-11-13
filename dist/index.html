@@ -9,10 +9,25 @@
 <body>
   <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->
   <section class="title-container">
-    <h1 class="title">Travel Tracker</h1>
+    <h1 class="title">Tripageddon: Schedule Your Final Destination</h1>
     <section class="title-sign"></section>
+  </section>  
+  <section class="inputs">
+  <h3 class="dashboard">Book Your Next Trip!</h3>
+    <div class="form-container-hidden">
+      <section class="form hidden">
+        <label class="input-label" for="date">Date</label>
+        <input class="date-input" name="date" id="date" placeholder="YYYY/MM/DD">
+        <label class="input-label" for="destinations">Destinations</label>
+        <input class="destinations-input" name="pick-destination" type="text" id="destinations" placeholder="Enter Destination">
+        <label class="input-label" for="travelers">Number of Travelers</label>
+        <input class="input-box travelers-input" name="pick-travelers" type="text" id="travelers" placeholder="# of Travelers">
+        <label class="input-label" for="duration">Trip Duration</label>
+        <input class="duration-input" name="travelers" type="text" id="duration" placeholder="Days Away">
+        <button class="submit-button" aria-label="Submit">Submit</button>
+      </section>
+    </div>
   </section>
-  <p class="dashboard">Dashboard</p>
   <section class="trip-containers-wrapper">
     <section class="past-trips-container">
       <h2 class="past-trips">Past Trips</h2>
@@ -31,7 +46,7 @@
       <div class="pending-content"></div>
     </section>
     <section class="money-spent-container">
-      <h2 class="money-spent">Cash Spent Total</h2>
+      <h2 class="money-spent">Yearly Total Cost</h2>
       <div class="money-content-container">
         <div class="money-content"></div>
       </div>

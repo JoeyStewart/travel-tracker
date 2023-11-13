@@ -85,7 +85,7 @@ const renderDestinationInfo = (trips) => {
           <p>Destination: ${destination.destination}</p>
           <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
           <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
-          <img src="${destination.image}" alt="Destination Image" class="fit-image">
+          <img src="${destination.image}" alt="destination-image" class="fit-image">
           <p>Alt: ${destination.alt}</p>
         </div>`;
     }
@@ -98,7 +98,9 @@ const renderMoney = (trips, destinations) => {
     let totalCost = 0;
 
     trips.forEach((trip) => {
-        const destination = destinations.find((dest) => dest.id === trip.destinationID);
+      const destination = destinations.find((dest) => {
+          return new Date(trip.date) > new Date(new Date() - 365 * 24 * 60 * 60 * 1000) && dest.id === trip.destinationID;
+      });
 
         if (destination) {
             const lodging = destination.estimatedLodgingCostPerDay * trip.duration;
@@ -111,7 +113,7 @@ const renderMoney = (trips, destinations) => {
             //     </div>`;
 
             totalCost += agencyFee;
-        }
+        } 
     });
     moneyContent.innerHTML += `
         <div class="overall-total">
@@ -128,3 +130,44 @@ export {
     renderDestinationInfo,
     renderMoney
 }
+
+// const dateInput = document.querySelector()
+// const destinationInput = document.querySelector()
+// const travelersInput = document.querySelector()
+// const durationInput = document.querySelector()
+
+// submitButton.addEventListener("click", () => {
+  
+
+//   let tripObject = {
+//     id:1 ,
+//     userID: parseInt(index), 
+//     destinationID:2,
+//     travelers:2 ,
+//     date: dateInput.value,
+//     duration:2,
+//     status:2,
+//     suggestedActivities: [],
+//     numSteps: parseInt(numStepsInput.value),
+//      minutesActive: parseInt(minutesActiveInput.value), 
+//      flightsOfStairs: parseInt(stairsInput.value)
+//     }
+
+//   let chosenDate = new Date(dateInput.value)
+//   let currentDate = new Date()
+
+//    if (chosenDate > currentDate) {
+//     alert("Selected date is in the future")
+//   }
+//   else if (
+//     !dateInput.value || 
+//     !parseInt(numStepsInput.value) || 
+//     !parseInt(minutesActiveInput.value) ||
+//     !parseInt(stairsInput.value)
+//   ) {
+//     alert("You must fill all information fields correctly before submitting");
+//   } else {
+//     renderPendingTrips(tripObject);
+//     postTripData(tripObject);
+//   }
+// });
