@@ -31,6 +31,22 @@ export const fetchDestinationData = () => {
     });
 };
 
+export const fetchTravelerData = () => {
+  return fetch("http://localhost:3001/api/v1/travelers")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response Error");
+      } 
+      return response.json();
+    })
+    .then((data) => {
+        return data.destinations
+    })
+    .catch((err) => {
+      console.error("Fetch error:", err);
+    });
+};
+
 // POST requests
 export const postTripData = (tripInput) => {
   fetch("http://localhost:3001/api/v1/trips", {
@@ -53,6 +69,7 @@ export const postTripData = (tripInput) => {
       console.error("Error:", error);
     });
 };
+
 
 export const postDestinationData = (destInput) => {
   fetch("http://localhost:3001/api/v1/trips", {
