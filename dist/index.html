@@ -8,54 +8,61 @@
 </head>
 <body>
   <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->
-  <section class="title-container">
-    <h1 class="title">Tripageddon: Schedule Your Final Destination</h1>
-    <section class="title-sign"></section>
-  </section>  
-  <section class="inputs">
-  <h3 class="dashboard">Book Your Next Trip!</h3>
-    <div class="form-container-hidden">
-      <section class="form hidden">
-        <label class="input-label" for="date">Date</label>
-        <input class="date-input" name="date" id="date" placeholder="YYYY/MM/DD">
-        <label class="input-label" for="destinations">Destinations</label>
-        <input class="destinations-input" name="pick-destination" type="text" id="destinations" placeholder="Enter Destination">
-        <label class="input-label" for="travelers">Number of Travelers</label>
-        <input class="input-box travelers-input" name="pick-travelers" type="text" id="travelers" placeholder="# of Travelers">
-        <label class="input-label" for="duration">Trip Duration</label>
-        <input class="duration-input" name="travelers" type="text" id="duration" placeholder="Days Away">
-        <button class="submit-button" aria-label="Submit">Submit</button>
-      </section>
-    </div>
+  <section class="login-page">
+    <input class="username" id="user-name" placeholder="Username">
+    <input class="password" id="pass-word" placeholder="Password">
+    <button class="login-button">Login</button>
   </section>
-  <section class="trip-containers-wrapper">
-    <section class="past-trips-container">
-      <h2 class="past-trips">Past Trips</h2>
-      <div class="past-content-container">
-        <div class="past-content"></div>
+  <section class="user-page hidden">
+    <section class="title-container">
+      <h1 class="title">Tripageddon: Schedule Your Final Destination</h1>
+      <section class="title-sign"></section>
+    </section>  
+    <section class="inputs">
+    <h3 class="dashboard">Book Your Next Trip!</h3>
+      <div class="form-container-hidden">
+        <section class="form">
+          <label class="input-label" for="date">Date</label>
+          <input class="date-input" name="date" id="date" placeholder="YYYY/MM/DD">
+          <label class="input-label" for="destinations">Destinations</label>
+          <input class="destinations-input" name="pick-destination" type="text" id="destinations" placeholder="Enter Destination">
+          <label class="input-label" for="travelers">Number of Travelers</label>
+          <input class="input-box travelers-input" name="pick-travelers" type="text" id="travelers" placeholder="# of Travelers">
+          <label class="input-label" for="duration">Trip Duration</label>
+          <input class="duration-input" name="travelers" type="text" id="duration" placeholder="Days Away">
+          <button class="submit-button" aria-label="Submit">Submit</button>
+        </section>
       </div>
     </section>
-    <section class="upcoming-trips-container">
-      <h2 class="upcoming-trips">Upcoming Trips</h3>
-      <div class="upcoming-content-container">
-        <div class="upcoming-content"></div>
-      </div>
-    </section>
-    <section class="pending-trips-container">
-      <h2 class="pending-trips">Pending Trips</h4>
-      <div class="pending-content"></div>
-    </section>
-    <section class="money-spent-container">
-      <h2 class="money-spent">Yearly Total Cost</h2>
-      <div class="money-content-container">
-        <div class="money-content"></div>
-      </div>
-    </section>
-    <section class="destination-container">
-      <h2 class="destination">Destination Info</h2>
-      <div class="destination-content-container">
-        <div class="destination-content"></div>
-      </div>
+    <section class="trip-containers-wrapper">
+      <section class="past-trips-container">
+        <h2 class="past-trips">Past Trips</h2>
+        <div class="past-content-container">
+          <div class="past-content"></div>
+        </div>
+      </section>
+      <section class="upcoming-trips-container">
+        <h2 class="upcoming-trips">Upcoming Trips</h3>
+        <div class="upcoming-content-container">
+          <div class="upcoming-content"></div>
+        </div>
+      </section>
+      <section class="pending-trips-container">
+        <h2 class="pending-trips">Pending Trips</h4>
+        <div class="pending-content"></div>
+      </section>
+      <section class="money-spent-container">
+        <h2 class="money-spent">Cost Within Last Year</h2>
+        <div class="money-content-container">
+          <div class="money-content"></div>
+        </div>
+      </section>
+      <section class="destination-container">
+        <h2 class="destination">Destination Info</h2>
+        <div class="destination-content-container">
+          <div class="destination-content"></div>
+        </div>
+      </section>
     </section>
   </section>
   <script src="bundle.js"></script>
