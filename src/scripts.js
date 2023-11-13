@@ -12,8 +12,13 @@ const userPageView = document.querySelector(".user-page")
 const loginPageView = document.querySelector(".login-page")
 const loginButton = document.querySelector(".login-button")
 
+export let userID
 
-
+let approvedTripData
+let pendingTripData
+let pastTripData
+let moneySpent = {}
+let destinationInfo
 
 console.log(dateInput)
 submitButton.addEventListener("click", () => {
@@ -41,24 +46,26 @@ submitButton.addEventListener("click", () => {
     // renderPendingTrips(tripObject);
     postTripData(tripObject);
   }
+    dateInput.value = '' 
+    destinationInput.value = ''
+    durationInput.value = ''
+    travelersInput.value = ''
 });
 
 window.addEventListener('load', () => {
     Promise.all([fetchTripsData(), fetchDestinationData()])
       .then((data) => {
-        const approvedTripData = data[0];
-        const pendingTripData = data[0];
-        const pastTripData = data[0];
-        const moneySpent = {
-            trips: data[0],
-            destinations: data[1],
-          };
-        const destinationInfo = data[1];
-        populateApproved(approvedTripData);
-        populatePending(pendingTripData);
-        populatePast(pastTripData);
-        populateDestinationInfo(destinationInfo);
-        populateMoney(moneySpent);
+        approvedTripData = data[0];
+        pendingTripData = data[0];
+        pastTripData = data[0];
+        moneySpent["trips"] = data[0]
+        moneySpent["destinations"] = data[1]
+        destinationInfo = data[1];
+        // populateApproved(approvedTripData);
+        // populatePending(pendingTripData);
+        // populatePast(pastTripData);
+        // populateDestinationInfo(destinationInfo);
+        // populateMoney(moneySpent);
       })
       .catch((error) => {
         console.error("An error occurred:", error);
@@ -73,9 +80,14 @@ loginButton.addEventListener('click', () => {
     if (submittedUserName.test(username.value) && password.value === 'travel') {
     userPageView.classList.remove("hidden");
     loginPageView.classList.add("hidden");
-    let userID = username.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
-    // findUserID(userID)
+    userID = username.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
+        populateApproved(approvedTripData);
+        populatePending(pendingTripData);
+        populatePast(pastTripData);
+        populateDestinationInfo(destinationInfo);
+        populateMoney(moneySpent);
     console.log(userID)
+    findUserID(userID)
     } else if(username.value === "" && password.value === ""){
       alert("Submit a username and password to login")
     } else {
@@ -83,6 +95,7 @@ loginButton.addEventListener('click', () => {
     }
     username.value = "";
     password.value = "";
+    
    
     // } else {
     //   const userId = usernameInput.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
@@ -122,10 +135,10 @@ const generateRandomId = () => {
   return Math.floor(Math.random() * (1000000)) + 300; // Adjust the range as needed
 }
 
-// const findUserID = (id) => {
-//   userID = id
-//   console.log(userID, "You did it")
-//   return userID
-// }
+const findUserID = (id) => {
+  userID = id
+  console.log(userID, "You did it")
+  return userID
+}
 // console.log(userID, "Will it work")
 
