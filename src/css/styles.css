@@ -2,6 +2,10 @@ body {
   background: radial-gradient( rgb(122, 141, 238) 0%, rgb(191, 152, 198) 100%);
 }
 
+.hidden {
+  display: none;
+}
+
 .title-container{
   background: whitesmoke;
   display: flex;
