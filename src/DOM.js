@@ -1,13 +1,17 @@
+import {userID} from './scripts.js'
 //querySelectors
 const upcomingContent = document.querySelector('.upcoming-content')
 const pendingContent = document.querySelector('.pending-content')
 const pastContent = document.querySelector('.past-content')
 const moneyContent = document.querySelector('.money-content')
 const destinationContent = document.querySelector('.destination-content')
+
+
 //functions
 const renderApprovedTrips = (trips) => {
-    upcomingContent.classList.remove('hidden')
-    upcomingContent.innerHTML = '';
+  upcomingContent.classList.remove('hidden')
+  upcomingContent.innerHTML = '';
+  console.log(userID)
     
     const approvedTrips = trips.filter((trip) => trip.status === 'approved');
         approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
