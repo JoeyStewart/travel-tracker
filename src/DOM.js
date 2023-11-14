@@ -1,4 +1,4 @@
-import {userID} from './scripts.js'
+import {userID, findUserID} from './scripts.js'
 //querySelectors
 const upcomingContent = document.querySelector('.upcoming-content')
 const pendingContent = document.querySelector('.pending-content')
@@ -7,19 +7,20 @@ const moneyContent = document.querySelector('.money-content')
 const destinationContent = document.querySelector('.destination-content')
 
 //functions
-const renderApprovedTrips = (trips) => {
+const renderApprovedTrips = (trips, userID) => {
   upcomingContent.classList.remove('hidden');
   upcomingContent.innerHTML = '';
-  console.log(trips[0].userID)
+  console.log(userID, "Approved"); 
+
   const approvedTrips = trips.filter((trip) => trip.status === 'approved');
-  // approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-  console.log(approvedTrips)
-  
+  approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+
   const findUser = approvedTrips.filter((element) => {
-      return 10 === element.userID
-    });
-    findUserFunction(findUser)
+    return parseInt(userID) === element.userID;
+  });
+  findUserFunction(findUser);
 };
+
 
 function findUserFunction(findUser){
   if (findUser.length > 0) {
@@ -41,7 +42,7 @@ function findUserFunction(findUser){
 const renderPastTrips = (trips) => {
     pastContent.classList.remove('hidden');
     pastContent.innerHTML = '';
-  
+
     const mostRecentPastTrip = trips
       .filter(trip => new Date(trip.date) < new Date())
       .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
@@ -60,7 +61,7 @@ const renderPastTrips = (trips) => {
     }
   };
 
-  
+
 const renderPendingTrips = (trips) => {
     pendingContent.classList.remove('hidden')
     
