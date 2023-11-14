@@ -81,12 +81,12 @@ loginButton.addEventListener('click', () => {
     userPageView.classList.remove("hidden");
     loginPageView.classList.add("hidden");
     userID = username.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
-        populateApproved(approvedTripData);
-        populatePending(pendingTripData);
-        populatePast(pastTripData);
-        populateDestinationInfo(destinationInfo);
-        populateMoney(moneySpent);
-    console.log(userID)
+        // populateApproved(approvedTripData);
+        // populatePending(pendingTripData);
+        // populatePast(pastTripData);
+        // populateDestinationInfo(destinationInfo);
+        // populateMoney(moneySpent);
+    // console.log(userID)
     findUserID(userID)
     } else if(username.value === "" && password.value === ""){
       alert("Submit a username and password to login")
@@ -136,6 +136,11 @@ const generateRandomId = () => {
 }
 
 const findUserID = (id) => {
+  populateApproved(approvedTripData);
+  populatePending(pendingTripData);
+  populatePast(pastTripData);
+  populateDestinationInfo(destinationInfo);
+  populateMoney(moneySpent);
   userID = id
   console.log(userID, "You did it")
   return userID
