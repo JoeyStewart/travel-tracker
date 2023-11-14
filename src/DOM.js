@@ -61,10 +61,11 @@ const renderPendingTrips = (trips, destinations, userID) => {
 const renderDestinationInfo = (trips, destinations, userID) => {
   destinationContent.classList.remove('hidden');
   destinationContent.innerHTML = '';
+  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
   let totalCost = 0;
-  trips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
-
-  const latestTrip = trips[0];
+  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
+  console.log(userTrips)
+  const latestTrip = userTrips[0];
   console.log(latestTrip)
   const matchingDestination = destinations.find(destination => destination.id === latestTrip.destinationID);
 
@@ -77,10 +78,14 @@ const renderDestinationInfo = (trips, destinations, userID) => {
     
     destinationContent.innerHTML += `
       <div class="trip-info">
-        <p>Total cost for ${matchingDestination.destination}: $${agencyFee.toFixed(2)}</p>
-        <p>Cost Per Day: ${matchingDestination.estimatedLodgingCostPerDay}</p>
-        <p>Flight Cost p/person: ${matchingDestination.estimatedFlightCostPerPerson}</p>
-        <img src="${matchingDestination.image}" alt="destination-image" class="fit-image">
+      <p>${matchingDestination.destination}</p>
+      <img src="${matchingDestination.image}" alt="destination-image" class="fit-image">
+      <p>Cost Per Day: $${matchingDestination.estimatedLodgingCostPerDay} * ${latestTrip.duration} Days</p>
+      <p>${"+"}</p>
+      <p>Flight Cost: $${matchingDestination.estimatedFlightCostPerPerson} * ${latestTrip.travelers} Travelers</p>
+      <p>${"+ 10% Agency Fee"}</p>
+      <p>${"="}</p>
+      <p>Total cost for ${matchingDestination.destination}: $${agencyFee.toFixed(2)}</p>
       </div>`;
 
   }
