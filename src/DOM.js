@@ -10,7 +10,6 @@ const destinationContent = document.querySelector('.destination-content')
 const renderApprovedTrips = (trips, userID) => {
   upcomingContent.classList.remove('hidden');
   upcomingContent.innerHTML = '';
-  console.log(userID, "Approved"); 
 
   const approvedTrips = trips.filter((trip) => trip.status === 'approved');
   approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -57,27 +56,18 @@ const renderPastTrips = (trips, userID) => {
 
 
 
-const renderPendingTrips = (trips) => {
+const renderPendingTrips = (trips, userID) => {
     pendingContent.classList.remove('hidden')
-    
     pendingContent.innerHTML = '';
-    
+  
     const pendingTrips = trips.filter((trip) => trip.status === 'pending');
-    pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+      pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
     
-    if (pendingTrips.length > 0) {
-      const mostRecentPendingTrip = pendingTrips[0];
-      pendingContent.innerHTML += `
-        <p class="trip-info">
-          <p>Trip ID: ${mostRecentPendingTrip.id}</p>
-          <p>User ID: ${mostRecentPendingTrip.userID}</p>
-          <p>Destination ID: ${mostRecentPendingTrip.destinationID}</p>
-          <p>Date: ${mostRecentPendingTrip.date}</p>
-          <p>Duration: ${mostRecentPendingTrip.duration}</p>
-          <p>Status: ${mostRecentPendingTrip.status}</p>
-          <p>Suggested Activities: ${mostRecentPendingTrip.suggestedActivities}</p>
-        </p>`
-  }
+    const findUser = pendingTrips.filter((element) => {
+      return parseInt(userID) === element.userID;
+    });
+    console.log(findUser)
+    findUserPending(findUser)
 }
 
 //Temporary
@@ -142,6 +132,22 @@ function findUserFunction(findUser){
         <p>Status: ${mostRecentApprovedTrip.status}</p>
         <p>Suggested Activities: ${mostRecentApprovedTrip.suggestedActivities}</p>
       </div>`;
+  }
+}
+
+function findUserPending(findUser){
+  if (findUser.length > 0) {
+    const mostRecentPendingTrip = findUser[0];
+    pendingContent.innerHTML += `
+      <p class="trip-info">
+        <p>Trip ID: ${mostRecentPendingTrip.id}</p>
+        <p>User ID: ${mostRecentPendingTrip.userID}</p>
+        <p>Destination ID: ${mostRecentPendingTrip.destinationID}</p>
+        <p>Date: ${mostRecentPendingTrip.date}</p>
+        <p>Duration: ${mostRecentPendingTrip.duration}</p>
+        <p>Status: ${mostRecentPendingTrip.status}</p>
+        <p>Suggested Activities: ${mostRecentPendingTrip.suggestedActivities}</p>
+      </p>`
   }
 }
 
