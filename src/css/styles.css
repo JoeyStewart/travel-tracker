@@ -1,5 +1,37 @@
 body {
   background: radial-gradient( rgb(122, 141, 238) 0%, rgb(191, 152, 198) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  width: -300px;
+  justify-content: space-around;
+} */
+
+.login-page {
+  background: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 25px;
+  padding: 20px;
+  padding-top: 20px;
+  height: 13vh;
+  justify-content: space-between;
+}
+
+.login-label{
+  display: flex;
+  font-family:"Poppins";
+  font-size: larger;
 }
 
 .hidden {
@@ -22,6 +54,7 @@ body {
   height: 30px;
   margin: 0 auto;
   max-width: 1200px;
+  border-radius: 25px;
 }
 
 .trip-containers-wrapper {
@@ -42,7 +75,7 @@ body {
   margin: 2.5%;
   border-radius: 25px;
   background: whitesmoke;
-  height: 700px;
+  height: 650px;
   text-align: center;
   font-size: medium;
 }

@@ -7,71 +7,89 @@ const moneyContent = document.querySelector('.money-content')
 const destinationContent = document.querySelector('.destination-content')
 
 //functions
-const renderApprovedTrips = (trips, userID) => {
+const renderApprovedTrips = (trips, destinations, userID) => {
   upcomingContent.classList.remove('hidden');
   upcomingContent.innerHTML = '';
-
+  const dest = destinations
   const approvedTrips = trips.filter((trip) => trip.status === 'approved');
   approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const findUser = approvedTrips.filter((element) => {
     return parseInt(userID) === element.userID;
   });
-  findUserFunction(findUser);
+  findUserApproved(findUser, dest);
 };
 
-const renderPastTrips = (trips, userID) => {
-    pastContent.classList.remove('hidden');
-    pastContent.innerHTML = '';
-    const firstPastTrip = trips
-    .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .find(trip => true);
-    console.log(firstPastTrip.status)
-    if (firstPastTrip) {
-      pastContent.innerHTML += `
-        <div class="trip-info">
-        <p>Trip ID: ${firstPastTrip.id}</p>
-        <p>User ID: ${firstPastTrip.userID}</p>
-        <p>Destination ID: ${firstPastTrip.destinationID}</p>
-        <p>Date: ${firstPastTrip.date}</p>
-        <p>Duration: ${firstPastTrip.duration}</p>
-        <p>Status: ${firstPastTrip.status}</p>
-        <p>Suggested Activities: ${firstPastTrip.suggestedActivities}</p>
-      </div>`;
-    }
+const renderPastTrips = (trips, destinations, userID) => {
+  pastContent.classList.remove('hidden');
+  pastContent.innerHTML = '';
+  
+  const pastTrips = trips
+      .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  pastTrips.forEach(pastTrip => {
+      const showDestination = destinations.find(destination => destination.id === pastTrip.destinationID);
+
+      if (showDestination) {
+          pastContent.innerHTML += `
+              <div class="trip-info">
+                  <p>=================================</p>
+                  <p>${showDestination.destination}</p>
+                  <p>Date: ${pastTrip.date}</p>
+                  <p>Duration: ${pastTrip.duration} Days</p>
+                  <p>=================================</p>
+              </div>`;
+      }
+  });
 };
   
-const renderPendingTrips = (trips, userID) => {
-    pendingContent.classList.remove('hidden')
-    pendingContent.innerHTML = '';
-  
-    const pendingTrips = trips.filter((trip) => trip.status === 'pending');
-      pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    const findUser = pendingTrips.filter((element) => {
+const renderPendingTrips = (trips, destinations, userID) => {
+  pendingContent.classList.remove('hidden')
+  pendingContent.innerHTML = '';
+
+  const dest = destinations
+  const pendingTrips = trips.filter((trip) => trip.status === 'pending');
+  pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const findUser = pendingTrips.filter((element) => {
       return parseInt(userID) === element.userID;
-    });
+  });
 
-    findUserPending(findUser)
+  findUserPending(findUser, dest);
 }
 
-//Temporary
-//Only used to display destination object
-const renderDestinationInfo = (trips) => {
-    destinationContent.classList.remove('hidden');
-    destinationContent.innerHTML = '';
-    if (trips.length > 0) {
-        const destination = trips[0];
-        destinationContent.innerHTML += `
-        <div class="money-info">
-          <p>Destination ID: ${destination.id}</p>
-          <p>Destination: ${destination.destination}</p>
-          <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
-          <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
-          <img src="${destination.image}" alt="destination-image" class="fit-image">
-        </div>`;
-    }
+const renderDestinationInfo = (trips, destinations, userID) => {
+  destinationContent.classList.remove('hidden');
+  destinationContent.innerHTML = '';
+  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
+  let totalCost = 0;
+  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
+  console.log(userTrips)
+  const latestTrip = userTrips[0];
+  console.log(latestTrip)
+  const matchingDestination = destinations.find(destination => destination.id === latestTrip.destinationID);
+
+  if (matchingDestination) {
+    const lodging = matchingDestination.estimatedLodgingCostPerDay * latestTrip.duration;
+    const flightCost = matchingDestination.estimatedFlightCostPerPerson * latestTrip.travelers;
+    const tripCost = lodging + flightCost;
+    const agencyFee = (tripCost * 0.10) + tripCost;
+    totalCost += agencyFee;
+    
+    destinationContent.innerHTML += `
+      <div class="trip-info">
+      <p>${matchingDestination.destination}</p>
+      <img src="${matchingDestination.image}" alt="destination-image" class="fit-image">
+      <p>Cost Per Day: $${matchingDestination.estimatedLodgingCostPerDay} * ${latestTrip.duration} Days</p>
+      <p>${"+"}</p>
+      <p>Flight Cost: $${matchingDestination.estimatedFlightCostPerPerson} * ${latestTrip.travelers} Travelers</p>
+      <p>${"+ 10% Agency Fee"}</p>
+      <p>${"="}</p>
+      <p>Total cost for ${matchingDestination.destination}: $${agencyFee.toFixed(2)}</p>
+      </div>`;
+
+  }
 };
 
 const renderMoney = (trips, destinations, userID) => {
@@ -102,42 +120,61 @@ const renderMoney = (trips, destinations, userID) => {
     });
     moneyContent.innerHTML += `
         <div class="overall-total">
+          <p>=================================</p>
           <p>Overall Total Cost: $${totalCost.toFixed(2)}</p>
+          <p>=================================</p>
         </div>`;
 };
 
-function findUserFunction(findUser){
+function findUserApproved(findUser, dest) {
   if (findUser.length > 0) {
-    const mostRecentApprovedTrip = findUser[0];
-    upcomingContent.innerHTML += `
-      <div class="trip-info">
-        <p>Trip ID: ${mostRecentApprovedTrip.id}</p>
-        <p>User ID: ${mostRecentApprovedTrip.userID}</p>
-        <p>Destination ID: ${mostRecentApprovedTrip.destinationID}</p>
-        <p>Date: ${mostRecentApprovedTrip.date}</p>
-        <p>Duration: ${mostRecentApprovedTrip.duration}</p>
-        <p>Status: ${mostRecentApprovedTrip.status}</p>
-        <p>Suggested Activities: ${mostRecentApprovedTrip.suggestedActivities}</p>
-      </div>`;
+    findUser.forEach(mostRecentApprovedTrip => {
+      const showDestination = dest.find(destination => destination.id === mostRecentApprovedTrip.destinationID);
+
+    if (showDestination) {
+      upcomingContent.innerHTML += `
+        <div class="trip-info">
+          <p>=================================</p>
+          <p>${showDestination.destination}</p>
+          <p>Date: ${mostRecentApprovedTrip.date}</p>
+          <p>Duration: ${mostRecentApprovedTrip.duration} Days</p>
+          <p>=================================</p>
+          </div>`;
+      }
+    })
   }
 }
 
-function findUserPending(findUser){
+function findUserPending(findUser, dest) {
   if (findUser.length > 0) {
-    const mostRecentPendingTrip = findUser[0];
-    pendingContent.innerHTML += `
-      <p class="trip-info">
-        <p>Trip ID: ${mostRecentPendingTrip.id}</p>
-        <p>User ID: ${mostRecentPendingTrip.userID}</p>
-        <p>Destination ID: ${mostRecentPendingTrip.destinationID}</p>
-        <p>Date: ${mostRecentPendingTrip.date}</p>
-        <p>Duration: ${mostRecentPendingTrip.duration}</p>
-        <p>Status: ${mostRecentPendingTrip.status}</p>
-        <p>Suggested Activities: ${mostRecentPendingTrip.suggestedActivities}</p>
-      </p>`
+    // Clear existing content
+    pendingContent.innerHTML = '';
+
+    findUser.forEach(mostRecentPendingTrip => {
+      const showDestination = dest.find(destination => destination.id === mostRecentPendingTrip.destinationID);
+
+      if (showDestination) {
+        console.log('showDestination:', showDestination);
+
+        const tripInfo = document.createElement('div');
+        tripInfo.classList.add('trip-info');
+        tripInfo.innerHTML = `
+          <p>=================================</p>
+          <p>${showDestination.destination}</p>
+          <p>Date: ${mostRecentPendingTrip.date}</p>
+          <p>Duration: ${mostRecentPendingTrip.duration} Days</p>
+          <p>=================================</p>
+        `;
+
+        // Log statements for debugging
+        console.log('Adding tripInfo element:', tripInfo);
+
+        // Append each tripInfo element directly
+        pendingContent.appendChild(tripInfo);
+      }
+    });
   }
 }
-
 
 
 export {
@@ -147,3 +184,5 @@ export {
     renderDestinationInfo,
     renderMoney
 }
+
+
