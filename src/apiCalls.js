@@ -49,7 +49,7 @@ export const fetchTravelerData = () => {
 
 // POST requests
 export const postTripData = (tripInput) => {
-  fetch("http://localhost:3001/api/v1/trips", {
+  return fetch("http://localhost:3001/api/v1/trips", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
