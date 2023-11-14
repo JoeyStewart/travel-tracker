@@ -51,23 +51,23 @@ export const fetchTravelerData = () => {
 export const postTripData = (tripInput) => {
   fetch("http://localhost:3001/api/v1/trips", {
     method: "POST",
-    body: JSON.stringify(tripInput),
     headers: {
       "Content-Type": "application/json",
-    }
+    },
+    body: JSON.stringify(tripInput)
   })
     .then((response) => {
-      if (!response.ok && response.status !== 422) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      // if (!response.ok && response.status !== 422) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
       return response.json();
     })
-    .then((data) => {
-      console.log("New activity data:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+    // .then((data) => {
+    //   console.log("New activity data:", data);
+    // })
+    // .catch((error) => {
+    //   console.error("Error:", error);
+    // });
 };
 
 
