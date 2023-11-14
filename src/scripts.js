@@ -109,8 +109,8 @@ loginButton.addEventListener('click', () => {
     
     // }
 });
-const populateApproved = (data) => {
-  renderApprovedTrips(data);
+const populateApproved = (data, userID) => {
+  renderApprovedTrips(data, userID);
 }
 
 const populatePending = (data) => {
@@ -135,12 +135,12 @@ const generateRandomId = () => {
   return Math.floor(Math.random() * (1000000)) + 300; // Adjust the range as needed
 }
 
-const findUserID = (id) => {
-  populateApproved(approvedTripData);
-  populatePending(pendingTripData);
-  populatePast(pastTripData);
-  populateDestinationInfo(destinationInfo);
-  populateMoney(moneySpent);
+export const findUserID = (id) => {
+  populateApproved(approvedTripData, id);
+  populatePending(pendingTripData ,id);
+  populatePast(pastTripData, id);
+  populateDestinationInfo(destinationInfo, id);
+  populateMoney(moneySpent, id);
   userID = id
   console.log(userID, "You did it")
   return userID
