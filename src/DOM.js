@@ -24,9 +24,10 @@ const renderPastTrips = (trips, userID) => {
     pastContent.classList.remove('hidden');
     pastContent.innerHTML = '';
     const firstPastTrip = trips
-    .filter(trip => trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
+    .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .find(trip => true);
+    console.log(firstPastTrip.status)
     if (firstPastTrip) {
       pastContent.innerHTML += `
         <div class="trip-info">
@@ -41,21 +42,6 @@ const renderPastTrips = (trips, userID) => {
     }
 };
   
-    // if (mostRecentPastTrip) {
-    //   pastContent.innerHTML += `
-    //     <div class="trip-info">
-    //       <p>Trip ID: ${mostRecentPastTrip.id}</p>
-    //       <p>User ID: ${mostRecentPastTrip.userID}</p>
-    //       <p>Destination ID: ${mostRecentPastTrip.destinationID}</p>
-    //       <p>Date: ${mostRecentPastTrip.date}</p>
-    //       <p>Duration: ${mostRecentPastTrip.duration}</p>
-    //       <p>Status: ${mostRecentPastTrip.status}</p>
-    //       <p>Suggested Activities: ${mostRecentPastTrip.suggestedActivities}</p>
-    //     </div>`;
-    // }
-
-
-
 const renderPendingTrips = (trips, userID) => {
     pendingContent.classList.remove('hidden')
     pendingContent.innerHTML = '';
@@ -84,7 +70,6 @@ const renderDestinationInfo = (trips) => {
           <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
           <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
           <img src="${destination.image}" alt="destination-image" class="fit-image">
-          <p>Alt: ${destination.alt}</p>
         </div>`;
     }
 };
