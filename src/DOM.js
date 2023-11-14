@@ -66,7 +66,7 @@ const renderPendingTrips = (trips, userID) => {
     const findUser = pendingTrips.filter((element) => {
       return parseInt(userID) === element.userID;
     });
-    console.log(findUser)
+
     findUserPending(findUser)
 }
 
@@ -89,13 +89,15 @@ const renderDestinationInfo = (trips) => {
     }
 };
 
-const renderMoney = (trips, destinations) => {
+const renderMoney = (trips, destinations, userID) => {
     moneyContent.classList.remove('hidden');
     moneyContent.innerHTML = '';
 
     let totalCost = 0;
 
-    trips.forEach((trip) => {
+    const userMoney = trips.filter(trip => trip.userID === parseInt(userID))
+      console.log(userMoney)
+    userMoney.forEach((trip) => {
       const destination = destinations.find((dest) => {
           return new Date(trip.date) > new Date(new Date() - 365 * 24 * 60 * 60 * 1000) && dest.id === trip.destinationID;
       });
