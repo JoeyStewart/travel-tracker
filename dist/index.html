@@ -28,7 +28,9 @@
           <label class="input-label" for="date">Date</label>
           <input class="date-input" name="date" id="date" placeholder="YYYY/MM/DD">
           <label class="input-label" for="destinations">Destinations</label>
-          <input class="destinations-input" name="pick-destination" type="text" id="destinations" placeholder="Enter Destination">
+          <select class="destinations-input" name="pick-destination" id="destinations">
+            <!-- Options will be dynamically added using JavaScript -->
+          </select>
           <label class="input-label" for="travelers">Number of Travelers</label>
           <input class="input-box travelers-input" name="pick-travelers" type="text" id="travelers" placeholder="# of Travelers">
           <label class="input-label" for="duration">Trip Duration</label>
@@ -37,7 +39,7 @@
         </section>
       </div>
     </section>
-    <section class="trip-containers-wrapper">
+    <section class="trip-containers-wrapper" id="widget-wrap">
       <section class="past-trips-container">
         <h2 class="past-trips">Past Trips</h2>
         <div class="past-content-container">
@@ -69,6 +71,5 @@
     </section>
   </section>
   <script src="bundle.js"></script>
-
 </body>
 </html>
