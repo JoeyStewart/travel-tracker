@@ -58,22 +58,32 @@ const renderPendingTrips = (trips, destinations, userID) => {
     findUserPending(findUser, dest)
 }
 
-//Display when Destination is selected
-//Only used to display destination object
-const renderDestinationInfo = (trips) => {
-    destinationContent.classList.remove('hidden');
-    destinationContent.innerHTML = '';
-    if (trips.length > 0) {
-        const destination = trips[0];
-        destinationContent.innerHTML += `
-        <div class="money-info">
-          <p>Destination ID: ${destination.id}</p>
-          <p>Destination: ${destination.destination}</p>
-          <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
-          <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
-          <img src="${destination.image}" alt="destination-image" class="fit-image">
-        </div>`;
-    }
+const renderDestinationInfo = (trips, destinations, userID) => {
+  destinationContent.classList.remove('hidden');
+  destinationContent.innerHTML = '';
+  let totalCost = 0;
+  trips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
+
+  const latestTrip = trips[0];
+  console.log(latestTrip)
+  const matchingDestination = destinations.find(destination => destination.id === latestTrip.destinationID);
+
+  if (matchingDestination) {
+    const lodging = matchingDestination.estimatedLodgingCostPerDay * latestTrip.duration;
+    const flightCost = matchingDestination.estimatedFlightCostPerPerson * latestTrip.travelers;
+    const tripCost = lodging + flightCost;
+    const agencyFee = (tripCost * 0.10) + tripCost;
+    totalCost += agencyFee;
+    
+    destinationContent.innerHTML += `
+      <div class="trip-info">
+        <p>Total cost for ${matchingDestination.destination}: $${agencyFee.toFixed(2)}</p>
+        <p>Cost Per Day: ${matchingDestination.estimatedLodgingCostPerDay}</p>
+        <p>Flight Cost p/person: ${matchingDestination.estimatedFlightCostPerPerson}</p>
+        <img src="${matchingDestination.image}" alt="destination-image" class="fit-image">
+      </div>`;
+
+  }
 };
 
 const renderMoney = (trips, destinations, userID) => {
@@ -104,9 +114,9 @@ const renderMoney = (trips, destinations, userID) => {
     });
     moneyContent.innerHTML += `
         <div class="overall-total">
-          <p>=======================</p>
+          <p>=================================</p>
           <p>Overall Total Cost: $${totalCost.toFixed(2)}</p>
-          <p>=======================</p>
+          <p>=================================</p>
         </div>`;
 };
 
