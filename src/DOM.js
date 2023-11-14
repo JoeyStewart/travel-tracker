@@ -56,7 +56,7 @@ const renderPendingTrips = (trips, userID) => {
     findUserPending(findUser)
 }
 
-//Temporary
+//Display when Destination is selected
 //Only used to display destination object
 const renderDestinationInfo = (trips) => {
     destinationContent.classList.remove('hidden');
@@ -138,8 +138,6 @@ function findUserPending(findUser){
   }
 }
 
-
-
 export {
     renderApprovedTrips,
     renderPendingTrips,
@@ -147,3 +145,5 @@ export {
     renderDestinationInfo,
     renderMoney
 }
+
+
