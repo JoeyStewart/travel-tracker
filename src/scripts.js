@@ -14,8 +14,8 @@ const loginButton = document.querySelector(".login-button")
 
 export let userID
 
-let approvedTripData
-let pendingTripData
+let approvedTripData = {}
+let pendingTripData = {}
 let pastTripData = {}
 let moneySpent = {}
 let destinationInfo
@@ -60,8 +60,10 @@ submitButton.addEventListener("click", () => {
 window.addEventListener('load', () => {
     Promise.all([fetchTripsData(), fetchDestinationData()])
       .then((data) => {
-        approvedTripData = data[0];
-        pendingTripData = data[0];
+        approvedTripData["trips"] = data[0];
+        approvedTripData["destinations"] = data[1];
+        pendingTripData["trips"] = data[0];
+        pendingTripData["destinations"] = data[1];
         pastTripData["trips"] = data[0];
         pastTripData["destinations"] = data[1];
         moneySpent["trips"] = data[0];
@@ -93,11 +95,15 @@ loginButton.addEventListener('click', () => {
 });
 
 const populateApproved = (data, userID) => {
-  renderApprovedTrips(data, userID);
+  const tripsData = data.trips;
+  const destinationData = data.destinations;
+  renderApprovedTrips(tripsData, destinationData, userID);
 }
 
 const populatePending = (data, userID) => {
-  renderPendingTrips(data, userID);
+  const tripsData = data.trips;
+  const destinationData = data.destinations;
+  renderPendingTrips(tripsData, destinationData, userID);
 }
 
 const populatePast = (data, userID) => {
