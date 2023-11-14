@@ -97,10 +97,10 @@ const populatePast = (data, userID) => {
   renderPastTrips(data, userID)
 }
 
-const populateMoney = (data) => {
+const populateMoney = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
-  renderMoney(tripsData, destinationData);
+  renderMoney(tripsData, destinationData, userID);
 };
 
 const populateDestinationInfo = (data) => {
