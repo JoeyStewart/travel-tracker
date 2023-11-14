@@ -21,45 +21,40 @@ const renderApprovedTrips = (trips, userID) => {
   findUserFunction(findUser);
 };
 
-
-function findUserFunction(findUser){
-  if (findUser.length > 0) {
-    const mostRecentApprovedTrip = findUser[0];
-    console.log('Element UserID:', mostRecentApprovedTrip.userID);
-
-    upcomingContent.innerHTML += `
-      <div class="trip-info">
-        <p>Trip ID: ${mostRecentApprovedTrip.id}</p>
-        <p>User ID: ${mostRecentApprovedTrip.userID}</p>
-        <p>Destination ID: ${mostRecentApprovedTrip.destinationID}</p>
-        <p>Date: ${mostRecentApprovedTrip.date}</p>
-        <p>Duration: ${mostRecentApprovedTrip.duration}</p>
-        <p>Status: ${mostRecentApprovedTrip.status}</p>
-        <p>Suggested Activities: ${mostRecentApprovedTrip.suggestedActivities}</p>
-      </div>`;
-  }
-}
-const renderPastTrips = (trips) => {
+const renderPastTrips = (trips, userID) => {
     pastContent.classList.remove('hidden');
     pastContent.innerHTML = '';
-
-    const mostRecentPastTrip = trips
-      .filter(trip => new Date(trip.date) < new Date())
-      .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-  
-    if (mostRecentPastTrip) {
+    const firstPastTrip = trips
+    .filter(trip => trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .find(trip => true);
+    if (firstPastTrip) {
       pastContent.innerHTML += `
         <div class="trip-info">
-          <p>Trip ID: ${mostRecentPastTrip.id}</p>
-          <p>User ID: ${mostRecentPastTrip.userID}</p>
-          <p>Destination ID: ${mostRecentPastTrip.destinationID}</p>
-          <p>Date: ${mostRecentPastTrip.date}</p>
-          <p>Duration: ${mostRecentPastTrip.duration}</p>
-          <p>Status: ${mostRecentPastTrip.status}</p>
-          <p>Suggested Activities: ${mostRecentPastTrip.suggestedActivities}</p>
-        </div>`;
+        <p>Trip ID: ${firstPastTrip.id}</p>
+        <p>User ID: ${firstPastTrip.userID}</p>
+        <p>Destination ID: ${firstPastTrip.destinationID}</p>
+        <p>Date: ${firstPastTrip.date}</p>
+        <p>Duration: ${firstPastTrip.duration}</p>
+        <p>Status: ${firstPastTrip.status}</p>
+        <p>Suggested Activities: ${firstPastTrip.suggestedActivities}</p>
+      </div>`;
     }
-  };
+};
+  
+    // if (mostRecentPastTrip) {
+    //   pastContent.innerHTML += `
+    //     <div class="trip-info">
+    //       <p>Trip ID: ${mostRecentPastTrip.id}</p>
+    //       <p>User ID: ${mostRecentPastTrip.userID}</p>
+    //       <p>Destination ID: ${mostRecentPastTrip.destinationID}</p>
+    //       <p>Date: ${mostRecentPastTrip.date}</p>
+    //       <p>Duration: ${mostRecentPastTrip.duration}</p>
+    //       <p>Status: ${mostRecentPastTrip.status}</p>
+    //       <p>Suggested Activities: ${mostRecentPastTrip.suggestedActivities}</p>
+    //     </div>`;
+    // }
+
 
 
 const renderPendingTrips = (trips) => {
@@ -133,6 +128,22 @@ const renderMoney = (trips, destinations) => {
           <p>Overall Total Cost: $${totalCost.toFixed(2)}</p>
         </div>`;
 };
+
+function findUserFunction(findUser){
+  if (findUser.length > 0) {
+    const mostRecentApprovedTrip = findUser[0];
+    upcomingContent.innerHTML += `
+      <div class="trip-info">
+        <p>Trip ID: ${mostRecentApprovedTrip.id}</p>
+        <p>User ID: ${mostRecentApprovedTrip.userID}</p>
+        <p>Destination ID: ${mostRecentApprovedTrip.destinationID}</p>
+        <p>Date: ${mostRecentApprovedTrip.date}</p>
+        <p>Duration: ${mostRecentApprovedTrip.duration}</p>
+        <p>Status: ${mostRecentApprovedTrip.status}</p>
+        <p>Suggested Activities: ${mostRecentApprovedTrip.suggestedActivities}</p>
+      </div>`;
+  }
+}
 
 
 
