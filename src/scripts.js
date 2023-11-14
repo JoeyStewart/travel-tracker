@@ -4,7 +4,7 @@ import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
 import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo } from './DOM';
 
 const dateInput = document.querySelector(".date-input");
-const destinationsInput = document.querySelector("#destinations"); // Updated selector
+const destinationsInput = document.querySelector("#destinations");
 const travelersInput = document.querySelector(".travelers-input");
 const durationInput = document.querySelector(".duration-input");
 const submitButton = document.querySelector(".submit-button");
@@ -73,14 +73,12 @@ window.addEventListener('load', () => {
       moneySpent["destinations"] = data[1];
       destinationInfo["trips"] = data[0];
       destinationInfo["destinations"] = data[1];
-
-      // Fetch the select element
+      
       const destinationsSelect = document.getElementById('destinations');
 
-      // Populate the dropdown options
       data[1].forEach(destination => {
         const option = document.createElement('option');
-        option.value = destination.id; // You might want to use a unique identifier
+        option.value = destination.id;
         option.textContent = destination.destination;
         destinationsSelect.appendChild(option);
       });
