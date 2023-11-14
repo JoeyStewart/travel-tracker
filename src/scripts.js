@@ -43,7 +43,6 @@ submitButton.addEventListener("click", () => {
    {
     alert("You must fill all information fields correctly before submitting");
   } else {
-    // renderPendingTrips(tripObject);
     postTripData(tripObject);
   }
     dateInput.value = '' 
@@ -61,11 +60,6 @@ window.addEventListener('load', () => {
         moneySpent["trips"] = data[0]
         moneySpent["destinations"] = data[1]
         destinationInfo = data[1];
-        // populateApproved(approvedTripData);
-        // populatePending(pendingTripData);
-        // populatePast(pastTripData);
-        // populateDestinationInfo(destinationInfo);
-        // populateMoney(moneySpent);
       })
       .catch((error) => {
         console.error("An error occurred:", error);
@@ -81,12 +75,6 @@ loginButton.addEventListener('click', () => {
     userPageView.classList.remove("hidden");
     loginPageView.classList.add("hidden");
     userID = username.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
-        // populateApproved(approvedTripData);
-        // populatePending(pendingTripData);
-        // populatePast(pastTripData);
-        // populateDestinationInfo(destinationInfo);
-        // populateMoney(moneySpent);
-    // console.log(userID)
     findUserID(userID)
     } else if(username.value === "" && password.value === ""){
       alert("Submit a username and password to login")
@@ -95,30 +83,18 @@ loginButton.addEventListener('click', () => {
     }
     username.value = "";
     password.value = "";
-    
-   
-    // } else {
-    //   const userId = usernameInput.value.match(/^traveler([1-9]|[1-4][0-9]|50)$/)[1];
-    //   fetchGetAll(userId)
-    //     .then((data) => {
-    //       destinations = data[2].destinations;
-    //       const trips = makeTripArray(data[1].trips, userId);
-    //       currentUser = new User(data[0], trips);
-    //     })
-    //     .catch((err) => console.log(err));
-    
-    // }
 });
+
 const populateApproved = (data, userID) => {
   renderApprovedTrips(data, userID);
 }
 
-const populatePending = (data) => {
-  renderPendingTrips(data);
+const populatePending = (data, userID) => {
+  renderPendingTrips(data, userID);
 }
 
-const populatePast = (data) => {
-  renderPastTrips(data)
+const populatePast = (data, userID) => {
+  renderPastTrips(data, userID)
 }
 
 const populateMoney = (data) => {
@@ -132,7 +108,7 @@ const populateDestinationInfo = (data) => {
 }
 
 const generateRandomId = () => {
-  return Math.floor(Math.random() * (1000000)) + 300; // Adjust the range as needed
+  return Math.floor(Math.random() * (1000000)) + 300;
 }
 
 export const findUserID = (id) => {
@@ -142,8 +118,7 @@ export const findUserID = (id) => {
   populateDestinationInfo(destinationInfo, id);
   populateMoney(moneySpent, id);
   userID = id
-  console.log(userID, "You did it")
   return userID
 }
-// console.log(userID, "Will it work")
+
 
