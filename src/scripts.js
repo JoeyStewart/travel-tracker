@@ -18,7 +18,7 @@ let approvedTripData = {}
 let pendingTripData = {}
 let pastTripData = {}
 let moneySpent = {}
-let destinationInfo
+let destinationInfo = {}
 
 submitButton.addEventListener("click", () => {
   
@@ -41,7 +41,7 @@ submitButton.addEventListener("click", () => {
    {
     alert("You must fill all information fields correctly before submitting");
   } else {
-    // postTripData(tripObject)
+    postTripData(tripObject)
     // .then(() => {
     //   fetchTripsData()
     //     .then((tripData) => {
@@ -68,7 +68,8 @@ window.addEventListener('load', () => {
         pastTripData["destinations"] = data[1];
         moneySpent["trips"] = data[0];
         moneySpent["destinations"] = data[1];
-        destinationInfo = data[1];
+        destinationInfo["trips"] = data[0];
+        destinationInfo["destinations"] = data[1];
       })
       .catch((error) => {
         console.error("An error occurred:", error);
@@ -118,8 +119,10 @@ const populateMoney = (data, userID) => {
   renderMoney(tripsData, destinationData, userID);
 };
 
-const populateDestinationInfo = (data) => {
-  renderDestinationInfo(data)
+const populateDestinationInfo = (data, id) => {
+  const tripsData = data.trips;
+  const destinationData = data.destinations;
+  renderDestinationInfo(tripsData, destinationData, id)
 }
 
 const generateRandomId = () => {
