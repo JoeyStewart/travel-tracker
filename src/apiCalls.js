@@ -72,7 +72,7 @@ export const postTripData = (tripInput) => {
 
 
 export const postDestinationData = (destInput) => {
-  fetch("http://localhost:3001/api/v1/trips", {
+  fetch("http://localhost:3001/api/v1/destinations", {
     method: "POST",
     body: JSON.stringify(destInput),
     headers: {
@@ -80,13 +80,13 @@ export const postDestinationData = (destInput) => {
     }
   })
     .then((response) => {
-      if (!response.ok && response.status !== 422) {
+      if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json();
     })
     .then((data) => {
-      console.log("New activity data:", data);
+      console.log("New destination data:", data);
     })
     .catch((error) => {
       console.error("Error:", error);
