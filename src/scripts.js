@@ -20,13 +20,12 @@ let pastTripData
 let moneySpent = {}
 let destinationInfo
 
-console.log(dateInput)
 submitButton.addEventListener("click", () => {
   
 
   let tripObject = {
     id: generateRandomId(),
-    userID: generateRandomId(), 
+    userID: parseInt(userID), 
     destinationID: parseInt(destinationInput.value),
     travelers: parseInt(travelersInput.value) ,
     date: dateInput.value,
