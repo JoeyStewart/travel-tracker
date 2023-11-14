@@ -1,80 +1,94 @@
 import './css/styles.css';
-import './images/turing-logo.png'
+import './images/turing-logo.png';
 import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
-import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo} from './DOM'
+import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo } from './DOM';
 
-const dateInput = document.querySelector(".date-input")
-const destinationInput = document.querySelector(".destinations-input")
-const travelersInput = document.querySelector(".travelers-input")
-const durationInput = document.querySelector(".duration-input")
-const submitButton = document.querySelector(".submit-button")
-const userPageView = document.querySelector(".user-page")
-const loginPageView = document.querySelector(".login-page")
-const loginButton = document.querySelector(".login-button")
+const dateInput = document.querySelector(".date-input");
+const destinationsInput = document.querySelector("#destinations"); // Updated selector
+const travelersInput = document.querySelector(".travelers-input");
+const durationInput = document.querySelector(".duration-input");
+const submitButton = document.querySelector(".submit-button");
+const userPageView = document.querySelector(".user-page");
+const loginPageView = document.querySelector(".login-page");
+const loginButton = document.querySelector(".login-button");
+const tripForm = document.querySelector(".pending-trips-container");
 
-export let userID
+export let userID;
+let trips = [];
+let destination = [];
 
-let approvedTripData = {}
-let pendingTripData = {}
-let pastTripData = {}
-let moneySpent = {}
-let destinationInfo = {}
+function hideElement(element) {
+  console.log(element);
+  element.style.display = "none";
+}
+
+let approvedTripData = {};
+let pendingTripData = {};
+let pastTripData = {};
+let moneySpent = {};
+let destinationInfo = {};
 
 submitButton.addEventListener("click", () => {
-  
-
   let tripObject = {
     id: generateRandomId(),
-    userID: parseInt(userID), 
-    destinationID: parseInt(destinationInput.value),
-    travelers: parseInt(travelersInput.value) ,
+    userID: parseInt(userID),
+    destinationID: parseInt(destinationsInput.value),
+    travelers: parseInt(travelersInput.value),
     date: dateInput.value,
     duration: parseInt(durationInput.value),
     status: "pending",
     suggestedActivities: [],
-    }
-  if (
-    !dateInput.value || 
-    !destinationInput.value || 
-    !durationInput.value ||
-    !travelersInput.value)
-   {
+  };
+
+  if (!dateInput.value || !destinationsInput.value || !durationInput.value || !travelersInput.value) {
     alert("You must fill all information fields correctly before submitting");
   } else {
     postTripData(tripObject)
-    // .then(() => {
-    //   fetchTripsData()
-    //     .then((tripData) => {
-    //       trips = tripData;
-    //       renderPendingTrips(trips, userID);
-    //       hideElement(tripForm);
-    //     });
-    // });
+      .then(() => {
+        fetchTripsData()
+          .then((tripData) => {
+            trips = tripData;
+            renderPendingTrips(trips, destination, userID);
+            hideElement(tripForm);
+          });
+      });
   }
-    dateInput.value = '' 
-    destinationInput.value = ''
-    durationInput.value = ''
-    travelersInput.value = ''
+
+  dateInput.value = '';
+  destinationsInput.value = '';
+  durationInput.value = '';
+  travelersInput.value = '';
 });
 
 window.addEventListener('load', () => {
-    Promise.all([fetchTripsData(), fetchDestinationData()])
-      .then((data) => {
-        approvedTripData["trips"] = data[0];
-        approvedTripData["destinations"] = data[1];
-        pendingTripData["trips"] = data[0];
-        pendingTripData["destinations"] = data[1];
-        pastTripData["trips"] = data[0];
-        pastTripData["destinations"] = data[1];
-        moneySpent["trips"] = data[0];
-        moneySpent["destinations"] = data[1];
-        destinationInfo["trips"] = data[0];
-        destinationInfo["destinations"] = data[1];
-      })
-      .catch((error) => {
-        console.error("An error occurred:", error);
+  Promise.all([fetchTripsData(), fetchDestinationData()])
+    .then((data) => {
+      approvedTripData["trips"] = data[0];
+      approvedTripData["destinations"] = data[1];
+      pendingTripData["trips"] = data[0];
+      pendingTripData["destinations"] = data[1];
+      pastTripData["trips"] = data[0];
+      pastTripData["destinations"] = data[1];
+      moneySpent["trips"] = data[0];
+      moneySpent["destinations"] = data[1];
+      destinationInfo["trips"] = data[0];
+      destinationInfo["destinations"] = data[1];
+
+      // Fetch the select element
+      const destinationsSelect = document.getElementById('destinations');
+
+      // Populate the dropdown options
+      data[1].forEach(destination => {
+        const option = document.createElement('option');
+        option.value = destination.id; // You might want to use a unique identifier
+        option.textContent = destination.destination;
+        destinationsSelect.appendChild(option);
       });
-  });
+    })
+    .catch((error) => {
+      console.error("An error occurred:", error);
+    });
+});
 
 loginButton.addEventListener('click', () => {
   const submittedUserName = /^(traveler([1-9]|[1-4][0-9]|50))$/;
