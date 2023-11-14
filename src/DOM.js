@@ -1,75 +1,59 @@
+import {userID, findUserID} from './scripts.js'
 //querySelectors
 const upcomingContent = document.querySelector('.upcoming-content')
 const pendingContent = document.querySelector('.pending-content')
 const pastContent = document.querySelector('.past-content')
 const moneyContent = document.querySelector('.money-content')
 const destinationContent = document.querySelector('.destination-content')
-//functions
-const renderApprovedTrips = (trips) => {
-    upcomingContent.classList.remove('hidden')
-    upcomingContent.innerHTML = '';
-    
-    const approvedTrips = trips.filter((trip) => trip.status === 'approved');
-        approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    if (approvedTrips.length > 0) {
-      const mostRecentApprovedTrip = approvedTrips[0];
-      upcomingContent.innerHTML += `
-        <div class="trip-info">
-          <p>Trip ID: ${mostRecentApprovedTrip.id}</p>
-          <p>User ID: ${mostRecentApprovedTrip.userID}</p>
-          <p>Destination ID: ${mostRecentApprovedTrip.destinationID}</p>
-          <p>Date: ${mostRecentApprovedTrip.date}</p>
-          <p>Duration: ${mostRecentApprovedTrip.duration}</p>
-          <p>Status: ${mostRecentApprovedTrip.status}</p>
-          <p>Suggested Activities: ${mostRecentApprovedTrip.suggestedActivities}</p>
-        </div>`
-  }
-}
 
-const renderPastTrips = (trips) => {
+//functions
+const renderApprovedTrips = (trips, userID) => {
+  upcomingContent.classList.remove('hidden');
+  upcomingContent.innerHTML = '';
+
+  const approvedTrips = trips.filter((trip) => trip.status === 'approved');
+  approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const findUser = approvedTrips.filter((element) => {
+    return parseInt(userID) === element.userID;
+  });
+  findUserFunction(findUser);
+};
+
+const renderPastTrips = (trips, userID) => {
     pastContent.classList.remove('hidden');
     pastContent.innerHTML = '';
-  
-    const mostRecentPastTrip = trips
-      .filter(trip => new Date(trip.date) < new Date())
-      .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-  
-    if (mostRecentPastTrip) {
+    const firstPastTrip = trips
+    .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .find(trip => true);
+    console.log(firstPastTrip.status)
+    if (firstPastTrip) {
       pastContent.innerHTML += `
         <div class="trip-info">
-          <p>Trip ID: ${mostRecentPastTrip.id}</p>
-          <p>User ID: ${mostRecentPastTrip.userID}</p>
-          <p>Destination ID: ${mostRecentPastTrip.destinationID}</p>
-          <p>Date: ${mostRecentPastTrip.date}</p>
-          <p>Duration: ${mostRecentPastTrip.duration}</p>
-          <p>Status: ${mostRecentPastTrip.status}</p>
-          <p>Suggested Activities: ${mostRecentPastTrip.suggestedActivities}</p>
-        </div>`;
+        <p>Trip ID: ${firstPastTrip.id}</p>
+        <p>User ID: ${firstPastTrip.userID}</p>
+        <p>Destination ID: ${firstPastTrip.destinationID}</p>
+        <p>Date: ${firstPastTrip.date}</p>
+        <p>Duration: ${firstPastTrip.duration}</p>
+        <p>Status: ${firstPastTrip.status}</p>
+        <p>Suggested Activities: ${firstPastTrip.suggestedActivities}</p>
+      </div>`;
     }
-  };
-
-const renderPendingTrips = (trips) => {
+};
+  
+const renderPendingTrips = (trips, userID) => {
     pendingContent.classList.remove('hidden')
-    
     pendingContent.innerHTML = '';
-    
+  
     const pendingTrips = trips.filter((trip) => trip.status === 'pending');
-    pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+      pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
     
-    if (pendingTrips.length > 0) {
-      const mostRecentPendingTrip = pendingTrips[0];
-      pendingContent.innerHTML += `
-        <p class="trip-info">
-          <p>Trip ID: ${mostRecentPendingTrip.id}</p>
-          <p>User ID: ${mostRecentPendingTrip.userID}</p>
-          <p>Destination ID: ${mostRecentPendingTrip.destinationID}</p>
-          <p>Date: ${mostRecentPendingTrip.date}</p>
-          <p>Duration: ${mostRecentPendingTrip.duration}</p>
-          <p>Status: ${mostRecentPendingTrip.status}</p>
-          <p>Suggested Activities: ${mostRecentPendingTrip.suggestedActivities}</p>
-        </p>`
-  }
+    const findUser = pendingTrips.filter((element) => {
+      return parseInt(userID) === element.userID;
+    });
+
+    findUserPending(findUser)
 }
 
 //Temporary
@@ -86,18 +70,19 @@ const renderDestinationInfo = (trips) => {
           <p>Cost Per Day: ${destination.estimatedLodgingCostPerDay}</p>
           <p>Flight Cost p/person: ${destination.estimatedFlightCostPerPerson}</p>
           <img src="${destination.image}" alt="destination-image" class="fit-image">
-          <p>Alt: ${destination.alt}</p>
         </div>`;
     }
 };
 
-const renderMoney = (trips, destinations) => {
+const renderMoney = (trips, destinations, userID) => {
     moneyContent.classList.remove('hidden');
     moneyContent.innerHTML = '';
 
     let totalCost = 0;
 
-    trips.forEach((trip) => {
+    const userMoney = trips.filter(trip => trip.userID === parseInt(userID))
+      console.log(userMoney)
+    userMoney.forEach((trip) => {
       const destination = destinations.find((dest) => {
           return new Date(trip.date) > new Date(new Date() - 365 * 24 * 60 * 60 * 1000) && dest.id === trip.destinationID;
       });
@@ -121,6 +106,38 @@ const renderMoney = (trips, destinations) => {
         </div>`;
 };
 
+function findUserFunction(findUser){
+  if (findUser.length > 0) {
+    const mostRecentApprovedTrip = findUser[0];
+    upcomingContent.innerHTML += `
+      <div class="trip-info">
+        <p>Trip ID: ${mostRecentApprovedTrip.id}</p>
+        <p>User ID: ${mostRecentApprovedTrip.userID}</p>
+        <p>Destination ID: ${mostRecentApprovedTrip.destinationID}</p>
+        <p>Date: ${mostRecentApprovedTrip.date}</p>
+        <p>Duration: ${mostRecentApprovedTrip.duration}</p>
+        <p>Status: ${mostRecentApprovedTrip.status}</p>
+        <p>Suggested Activities: ${mostRecentApprovedTrip.suggestedActivities}</p>
+      </div>`;
+  }
+}
+
+function findUserPending(findUser){
+  if (findUser.length > 0) {
+    const mostRecentPendingTrip = findUser[0];
+    pendingContent.innerHTML += `
+      <p class="trip-info">
+        <p>Trip ID: ${mostRecentPendingTrip.id}</p>
+        <p>User ID: ${mostRecentPendingTrip.userID}</p>
+        <p>Destination ID: ${mostRecentPendingTrip.destinationID}</p>
+        <p>Date: ${mostRecentPendingTrip.date}</p>
+        <p>Duration: ${mostRecentPendingTrip.duration}</p>
+        <p>Status: ${mostRecentPendingTrip.status}</p>
+        <p>Suggested Activities: ${mostRecentPendingTrip.suggestedActivities}</p>
+      </p>`
+  }
+}
+
 
 
 export {
@@ -130,44 +147,3 @@ export {
     renderDestinationInfo,
     renderMoney
 }
-
-// const dateInput = document.querySelector()
-// const destinationInput = document.querySelector()
-// const travelersInput = document.querySelector()
-// const durationInput = document.querySelector()
-
-// submitButton.addEventListener("click", () => {
-  
-
-//   let tripObject = {
-//     id:1 ,
-//     userID: parseInt(index), 
-//     destinationID:2,
-//     travelers:2 ,
-//     date: dateInput.value,
-//     duration:2,
-//     status:2,
-//     suggestedActivities: [],
-//     numSteps: parseInt(numStepsInput.value),
-//      minutesActive: parseInt(minutesActiveInput.value), 
-//      flightsOfStairs: parseInt(stairsInput.value)
-//     }
-
-//   let chosenDate = new Date(dateInput.value)
-//   let currentDate = new Date()
-
-//    if (chosenDate > currentDate) {
-//     alert("Selected date is in the future")
-//   }
-//   else if (
-//     !dateInput.value || 
-//     !parseInt(numStepsInput.value) || 
-//     !parseInt(minutesActiveInput.value) ||
-//     !parseInt(stairsInput.value)
-//   ) {
-//     alert("You must fill all information fields correctly before submitting");
-//   } else {
-//     renderPendingTrips(tripObject);
-//     postTripData(tripObject);
-//   }
-// });
