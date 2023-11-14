@@ -45,17 +45,18 @@ const renderPastTrips = (trips, destinations, userID) => {
 };
   
 const renderPendingTrips = (trips, destinations, userID) => {
-    pendingContent.classList.remove('hidden')
-    pendingContent.innerHTML = '';
-    const dest = destinations
-    const pendingTrips = trips.filter((trip) => trip.status === 'pending');
-      pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    const findUser = pendingTrips.filter((element) => {
-      return parseInt(userID) === element.userID;
-    });
+  pendingContent.classList.remove('hidden')
+  pendingContent.innerHTML = '';
 
-    findUserPending(findUser, dest)
+  const dest = destinations
+  const pendingTrips = trips.filter((trip) => trip.status === 'pending');
+  pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const findUser = pendingTrips.filter((element) => {
+      return parseInt(userID) === element.userID;
+  });
+
+  findUserPending(findUser, dest);
 }
 
 const renderDestinationInfo = (trips, destinations, userID) => {
@@ -146,22 +147,35 @@ function findUserApproved(findUser, dest) {
 
 function findUserPending(findUser, dest) {
   if (findUser.length > 0) {
+    // Clear existing content
+    pendingContent.innerHTML = '';
+
     findUser.forEach(mostRecentPendingTrip => {
       const showDestination = dest.find(destination => destination.id === mostRecentPendingTrip.destinationID);
 
       if (showDestination) {
-        pendingContent.innerHTML += `
-          <div class="trip-info">
-            <p>=================================</p>
-            <p>${showDestination.destination}</p>
-            <p>Date: ${mostRecentPendingTrip.date}</p>
-            <p>Duration: ${mostRecentPendingTrip.duration} Days</p>
-            <p>=================================</p>
-          </div>`;
+        console.log('showDestination:', showDestination);
+
+        const tripInfo = document.createElement('div');
+        tripInfo.classList.add('trip-info');
+        tripInfo.innerHTML = `
+          <p>=================================</p>
+          <p>${showDestination.destination}</p>
+          <p>Date: ${mostRecentPendingTrip.date}</p>
+          <p>Duration: ${mostRecentPendingTrip.duration} Days</p>
+          <p>=================================</p>
+        `;
+
+        // Log statements for debugging
+        console.log('Adding tripInfo element:', tripInfo);
+
+        // Append each tripInfo element directly
+        pendingContent.appendChild(tripInfo);
       }
     });
   }
 }
+
 
 export {
     renderApprovedTrips,
