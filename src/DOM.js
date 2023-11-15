@@ -40,11 +40,7 @@ function findUserApproved({ findUser, dest }) {
     });
   }
 }
-
-const renderPastTrips = (trips, destinations, userID) => {
-  pastContent.classList.remove('hidden');
-  pastContent.innerHTML = '';
-  
+  const renderPastTrips = (trips, destinations, userID) => {
   const pastTrips = trips
       .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
       .sort((a, b) => new Date(b.date) - new Date(a.date));
