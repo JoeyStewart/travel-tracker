@@ -54,7 +54,7 @@ submitButton.addEventListener("click", (event) => {
           .then((tripData) => {
             trips = tripData;
             renderPendingTrips(trips, destination, userID);
-            hideElement(tripForm)
+            // hideElement(tripForm)
             loginPageView.classList.add("hidden");
     
           });
