@@ -1,32 +1,33 @@
-# Fit Lit Part 1 - Joey, Zen, Lex
+# Travel-Tracker Part 1 - Joey
 
 ## Abstract:
-
-FitLit is a project that focuses on building an intuitive dashboard for activity tracking, inspired by fitness apps like Fitbit. It aims to use object and array prototype methods for data manipulation, create a user-friendly interface, write reusable code, and implement a comprehensive testing suite. The project involves processing data from activity trackers for multiple users over various days, presenting it in a clear and informative manner.
-
-Web development tools, including Webpack, are used to streamline the project. It's vital to configure Webpack to locate files correctly and utilize import/export syntax for modular code. The project's requirements include using the FitLit Starter Kit repository and setting up testing with mocha and chai.
-
-FitLit consists of multiple iterations, focusing on different aspects of data processing and dashboard display, including user data, hydration, sleep, and activity. It encourages fetching data from provided endpoints instead of hardcoded data files. While third-party libraries like Day.js or Chart.js are optional, instructor approval is advised.
-
-The project also provides an extension option for building a robust testing suite, ensuring the project's quality and functionality. In summary, FitLit aims to deliver a user-friendly fitness dashboard for tracking activity data, fostering collaboration and professionalism among team members.
-
+Travel-Tracker is an app that lets a user schedule a date for travel. The user also has the option of destination, trip duration, and choosing an amount of travelers to travel with. This project displays a login screen that takes a username and password, before logging in the user to their own dashboard. Their is an approved, pending, and past trips display on the dashboard. Once a a trip is submitted, a widget will show an image of the destination with a quick calculation showing the expense of the trip. There is also a widget that shows the amount of money that particular user has spent within the last year. The year is dynamic, so it only tracks the last 365 days and will continously update as each day passes. 
+ 
 
 ## Application link:
 
-[Fit Lit GitHub Repository](https://github.com/JoeyStewart/travel-tracker)
+[Travel-Tracker GitHub Repository](https://github.com/JoeyStewart/travel-tracker)
 
 ## Installation Instructions:
-1. Click the green < code > button.
-2. Copy SSH to your clipboard.
-3. Open up the terminal.
-4. Change into the directory you wish to clone the app into with the cd command.
-5. Use the git clone command followed by pasting the copied SSH key.
-6. Change into the cloned directory with the cd command.
-7. Install dependencies by typing npm install into the terminal
-8. Start the webpack by typing npm start into the terminal
-9. Copy the link it provides that will look like this: http://localhost:8080/
-10. Paste that into your web browser of choice
-11. Enjoy!
+Click the green < code > button.
+Copy SSH to your clipboard.
+Open up the terminal.
+Change into the directory you wish to clone the app into with the cd command.
+Use the git clone command followed by pasting the copied SSH key.
+Change into the cloned directory with the cd command.
+Install dependencies by typing npm install into the terminal
+Start the webpack by typing npm start into the terminal
+Copy the link it provides that will look like this: http://localhost:8080/
+Paste that into your web browser of choice
+Go to this link: ("https://github.com/turingschool-examples/travel-tracker-api")
+Click the green < code > button.
+Copy the SSH to your terminal.
+Create a new directory with your clone link.
+cd into the directory.
+Run npm install.
+Run npm start.
+You should see that the local server is now running. You will now be getting data to populate into the 8080 link.
+Enjoy!
 
 ## Preview of App:
 
@@ -34,7 +35,7 @@ The project also provides an extension option for building a robust testing suit
 
 
 ## Context:
-This was the first group project in Mod 2 that we had to assemble. We used webpacks as well as fetch requests to store variables for future use and that allowed us to populate every field of this Fitness Tracker. We had 10 days to complete the project spent about 90 hours cumulatively working togeher collaboratively. Part of the difficulty of the project came from learning new concepts such as the fetch requests and then having to utilize them in the same day. Even in spite of this, the project was completed several days in advance of the project deadline allowing time for bug fixes. 
+This solo project was the final project for mod2. It took me appoximately 70 hours to complete in its current iteration. There were many difficulties for me during this project. But in the end, I was able to overcome all the most difficult tasks that stood infront of me. I now believe I have a good base to continue to build off of in the future. Both literally in the project and in the knowledge I have accrued. I truly felt tested with this project but was able to put everything together in the end after a slow start to the module. 
 
 ## Contributors:
 
@@ -57,11 +58,11 @@ Joey Stewart - https://github.com/JoeyStewart
 
 ## Major Wins:
 ### Joey:
-I was able to create a skeleton for our webpage with the use of html and css. These had been my weaker areas in previous projects, but I feel that I have vastly improved on my methods in the construction phase. I have also been able to move away from using divs. Using them more sparingly. Learning how to quickly do fetch requests with my group was enlightening and I feel I can do them with speed and few issues going forward.
+A major win was being able to complete the project. I wasn't sure if I really could. But all the major milstones that I wanted to accomplish, I did. One was refactoring, GET and POST requests, being able to create unit tests and really utilizing iterator methods. Though I still wish I used more of them. 
 
 ## Challenges and How We Overcame Them:
 ### Joey:
-Understanding how to manipulate the DOM and use it effectively was a challenge. Balancing out how to import which functions to their needed folders left me confused during the earlier stages of the project. Once we had figured out a path in connecting our functions to the DOM, things became much smoother and easier for the rest of the project.
+My biggest challenge was the DOM. It has been a bit of thorn in my side since the start of my coding journey. I had gotten too far ahead of myself and focused too hard on making the code work instead of making it more symanitc, dynamic, and properly organized. I had accidentally interwoven my logic and DOM functions into one big mess. It worked, but there was no way I could tests effectively. But after a long time and a lot frustation, the solution came to me and I was able to parse the functions and reconstruct to be able to post them on the webpage. In the end, it still messier than I'd like, but I feel an immense sense of accomplishment for doing that part on my own and really feel like I have taken a turn in my coding career. 
 
 
 
