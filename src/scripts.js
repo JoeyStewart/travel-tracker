@@ -3,6 +3,7 @@ import './images/turing-logo.png';
 import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
 import { postDestinationInfo, postPastTrips, renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo, findUserPending, findUserApproved } from './DOM';
 
+//querySelectors
 const dateInput = document.querySelector(".date-input");
 const destinationsInput = document.querySelector("#destinations");
 const travelersInput = document.querySelector(".travelers-input");
@@ -13,25 +14,17 @@ const loginPageView = document.querySelector(".login-page");
 const loginButton = document.querySelector(".login-button");
 const tripForm = document.querySelector(".pending-trips-container");
 
+//globalvariables
 export let userID;
 let trips = [];
 let destination = [];
-
-function hideElement(element) {
-  console.log('Hiding element:', element);
-  element.style.display = "none";
-}
-
-function showElement(element) {
-  element.style.display = 'block'; // Or use 'flex' or any other appropriate display value
-}
-
 let approvedTripData = {};
 let pendingTripData = {};
 let pastTripData = {};
 let moneySpent = {};
 let destinationInfo = {};
 
+//EventListeners
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
   let tripObject = {
@@ -46,21 +39,21 @@ submitButton.addEventListener("click", (event) => {
   };
 
   if (!dateInput.value || !destinationsInput.value || !durationInput.value || !travelersInput.value) {
-    alert("You must fill all information fields correctly before submitting");
+    alert("You must fill all information fields before submitting");
   } else {
     postTripData(tripObject)
       .then(() => {
-        fetchTripsData()
-          .then((tripData) => {
-            trips = tripData;
-            renderPendingTrips(trips, destination, userID);
-            // hideElement(tripForm)
-            loginPageView.classList.add("hidden");
-    
+        Promise.all([fetchTripsData(), fetchDestinationData()]) 
+          .then(([tripsData, destinationData]) => {
+            trips = tripsData
+            destination =  destinationData
+            renderPendingTrips(trips, destination, userID)
+            hideElement(tripForm)
+            window.location.reload();
+            showElement(tripForm)
           });
       });
   }
-
   dateInput.value = '';
   destinationsInput.value = '';
   durationInput.value = '';
@@ -84,15 +77,12 @@ window.addEventListener('load', () => {
       const destinationsSelect = document.getElementById('destinations');
 
       data[1].forEach(destination => {
-        const option = document.createElement('option');
-        option.value = destination.id;
-        option.textContent = destination.destination;
-        destinationsSelect.appendChild(option);
+        const dropOption = document.createElement('option');
+        dropOption.value = destination.id;
+        dropOption.textContent = destination.destination;
+        destinationsSelect.appendChild(dropOption);
       });
     })
-    .catch((error) => {
-      console.error("An error occurred:", error);
-    });
 });
 
 loginButton.addEventListener('click', () => {
@@ -114,6 +104,8 @@ loginButton.addEventListener('click', () => {
     password.value = "";
 });
 
+
+//functions
 const populateApproved = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
@@ -160,6 +152,16 @@ export const findUserID = (id) => {
   populateMoney(moneySpent, id);
   userID = id
   return userID
+}
+
+function hideElement(element) {
+  console.log('Hiding element:', element);
+  element.style.display = "none";
+}
+
+function showElement(element) {
+  console.log('Show element:', element)
+  element.style.display = 'block';
 }
 
 
