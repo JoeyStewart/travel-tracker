@@ -31,7 +31,7 @@ Enjoy!
 
 ## Preview of App:
 
-![Travel Tracker](Travel-tracker.gif)
+![Travel Tracker]([Travel-tracker.gif](https://im4.ezgif.com/tmp/ezgif-4-83403fbcb2.gif))
 
 
 ## Context:
