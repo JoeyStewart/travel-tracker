@@ -131,8 +131,8 @@ const populatePending = (data, userID) => {
 const populatePast = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations
-  renderPastTrips(tripsData, destinationData, userID)
-  postPastTrips(tripsData, destinationData)
+  const renderPast = renderPastTrips(tripsData, destinationData, userID)
+  postPastTrips(renderPast)
 }
 
 const populateMoney = (data, userID) => {
