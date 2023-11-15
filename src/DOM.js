@@ -18,6 +18,38 @@ const renderApprovedTrips = (trips, destinations, userID) => {
   return { findUser, dest }
 };
 
+
+const renderPastTrips = (trips, destinations, userID) => {
+  const pastTrips = trips
+      .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+        return {pastTrips, destinations}
+}
+
+const renderPendingTrips = (trips, destinations, userID) => {
+  const dest = destinations;
+  const pendingTrips = trips.filter((trip) => trip.status === 'pending');
+  pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const findUser = pendingTrips.filter((element) => {
+    return parseInt(userID) === element.userID;
+  });
+  return { findUser, dest }
+}
+
+
+const renderDestinationInfo = (trips, destinations, userID) => {
+  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
+  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
+  
+  const latestTrip = userTrips.length > 0 ? userTrips[0] : null;
+  
+  const matchingDestination = latestTrip ? destinations.find(destination => destination.id === latestTrip.destinationID) : null;
+  
+  return { matchingDestination, latestTrip };
+};
+
+//DOM
 function findUserApproved({ findUser, dest }) {
   upcomingContent.classList.remove('hidden');
   upcomingContent.innerHTML = '';
@@ -41,13 +73,6 @@ function findUserApproved({ findUser, dest }) {
   }
 }
   
-const renderPastTrips = (trips, destinations, userID) => {
-  const pastTrips = trips
-      .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
-      console.log(pastTrips)
-  return {pastTrips, destinations}
-}
 
 function postPastTrips({pastTrips, destinations}){
   if(pastTrips.length > 0){
@@ -69,18 +94,6 @@ function postPastTrips({pastTrips, destinations}){
 };
 
   
-const renderPendingTrips = (trips, destinations, userID) => {
-  const dest = destinations;
-  const pendingTrips = trips.filter((trip) => trip.status === 'pending');
-  pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  const findUser = pendingTrips.filter((element) => {
-    return parseInt(userID) === element.userID;
-  });
-
-  return { findUser, dest }
-}
-
 function findUserPending({ findUser, dest }) {
   pendingContent.classList.remove('hidden');
   pendingContent.innerHTML = '';
@@ -105,16 +118,6 @@ function findUserPending({ findUser, dest }) {
   }
 }
 
-const renderDestinationInfo = (trips, destinations, userID) => {
-  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
-  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
-  
-  const latestTrip = userTrips.length > 0 ? userTrips[0] : null;
-  
-  const matchingDestination = latestTrip ? destinations.find(destination => destination.id === latestTrip.destinationID) : null;
-  
-  return { matchingDestination, latestTrip };
-};
 
 function postDestinationInfo({matchingDestination,  latestTrip}){
   destinationContent.classList.remove('hidden');
@@ -149,7 +152,6 @@ const renderMoney = (trips, destinations, userID) => {
     let totalCost = 0;
 
     const userMoney = trips.filter(trip => trip.userID === parseInt(userID))
-      console.log(userMoney)
     userMoney.forEach((trip) => {
       const destination = destinations.find((dest) => {
           return new Date(trip.date) > new Date(new Date() - 365 * 24 * 60 * 60 * 1000) && dest.id === trip.destinationID;
@@ -186,8 +188,6 @@ export {
     postDestinationInfo
 }
 
-import chai from 'chai';
-const { expect } = chai;
 
 
 

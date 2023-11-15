@@ -57,17 +57,8 @@ export const postTripData = (tripInput) => {
     body: JSON.stringify(tripInput)
   })
     .then((response) => {
-      // if (!response.ok && response.status !== 422) {
-      //   throw new Error(`HTTP error! Status: ${response.status}`);
-      // }
       return response.json();
     })
-    // .then((data) => {
-    //   console.log("New activity data:", data);
-    // })
-    // .catch((error) => {
-    //   console.error("Error:", error);
-    // });
 };
 
 
@@ -80,15 +71,6 @@ export const postDestinationData = (destInput) => {
     }
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
       return response.json();
-    })
-    .then((data) => {
-      console.log("New destination data:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 };
