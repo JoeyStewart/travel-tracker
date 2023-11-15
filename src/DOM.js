@@ -29,6 +29,7 @@ const renderPastTrips = (trips, destinations, userID) => {
 const renderPendingTrips = (trips, destinations, userID) => {
   const dest = destinations;
   const pendingTrips = trips.filter((trip) => trip.status === 'pending');
+  console.log("Pending", pendingTrips)
   pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const findUser = pendingTrips.filter((element) => {

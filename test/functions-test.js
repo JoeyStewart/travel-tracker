@@ -156,7 +156,7 @@ describe('renderPastTrips', () => {
 
     assert.isArray(result.pastTrips);
     assert.deepEqual(result.destinations, destinations); 
-    assert.equal(result.pastTrips.length, 0); 
+    assert.equal(result.pastTrips.length, 0); cd
   });
 })
 

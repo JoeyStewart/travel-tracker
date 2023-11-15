@@ -12,7 +12,6 @@ const submitButton = document.querySelector(".submit-button");
 const userPageView = document.querySelector(".user-page");
 const loginPageView = document.querySelector(".login-page");
 const loginButton = document.querySelector(".login-button");
-const tripForm = document.querySelector(".pending-trips-container");
 
 //globalvariables
 export let userID;
@@ -47,10 +46,8 @@ submitButton.addEventListener("click", (event) => {
           .then(([tripsData, destinationData]) => {
             trips = tripsData
             destination =  destinationData
-            renderPendingTrips(trips, destination, userID)
-            hideElement(tripForm)
-            window.location.reload();
-            showElement(tripForm)
+            const pending = renderPendingTrips(trips, destination, userID)
+            findUserPending(pending)
           });
       });
   }
@@ -154,14 +151,5 @@ export const findUserID = (id) => {
   return userID
 }
 
-function hideElement(element) {
-  console.log('Hiding element:', element);
-  element.style.display = "none";
-}
-
-function showElement(element) {
-  console.log('Show element:', element)
-  element.style.display = 'block';
-}
 
 
