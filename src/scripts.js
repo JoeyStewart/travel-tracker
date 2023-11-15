@@ -1,7 +1,7 @@
 import './css/styles.css';
 import './images/turing-logo.png';
 import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
-import { postPastTrips, renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo, findUserPending, findUserApproved } from './DOM';
+import { postDestinationInfo, postPastTrips, renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo, findUserPending, findUserApproved } from './DOM';
 
 const dateInput = document.querySelector(".date-input");
 const destinationsInput = document.querySelector("#destinations");
@@ -144,7 +144,8 @@ const populateMoney = (data, userID) => {
 const populateDestinationInfo = (data, id) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
-  renderDestinationInfo(tripsData, destinationData, id)
+  const postDest = renderDestinationInfo(tripsData, destinationData, id)
+  postDestinationInfo(postDest)
 }
 
 const generateRandomId = () => {
