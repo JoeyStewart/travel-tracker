@@ -124,8 +124,8 @@ const populateApproved = (data, userID) => {
 const populatePending = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
-  renderPendingTrips(tripsData, destinationData, userID);
-  findUserPending(tripsData, destinationData)
+  const pendingTrips = renderPendingTrips(tripsData, destinationData, userID);
+  findUserPending(pendingTrips)
 }
 
 const populatePast = (data, userID) => {
