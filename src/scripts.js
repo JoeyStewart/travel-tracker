@@ -1,7 +1,7 @@
 import './css/styles.css';
 import './images/turing-logo.png';
 import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
-import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo } from './DOM';
+import { postPastTrips, renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo, findUserPending, findUserApproved } from './DOM';
 
 const dateInput = document.querySelector(".date-input");
 const destinationsInput = document.querySelector("#destinations");
@@ -117,19 +117,22 @@ loginButton.addEventListener('click', () => {
 const populateApproved = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
-  renderApprovedTrips(tripsData, destinationData, userID);
+  const renderedTrips = renderApprovedTrips(tripsData, destinationData, userID);
+  findUserApproved(renderedTrips);
 }
 
 const populatePending = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
   renderPendingTrips(tripsData, destinationData, userID);
+  findUserPending(tripsData, destinationData)
 }
 
 const populatePast = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations
   renderPastTrips(tripsData, destinationData, userID)
+  postPastTrips(tripsData, destinationData)
 }
 
 const populateMoney = (data, userID) => {
