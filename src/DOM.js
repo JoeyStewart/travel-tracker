@@ -110,10 +110,10 @@ const renderPendingTrips = (trips, destinations, userID) => {
     return parseInt(userID) === element.userID;
   });
 
-  return findUser, dest
+  return { findUser, dest }
 }
 
-function findUserPending(findUser, dest) {
+function findUserPending({ findUser, dest }) {
   pendingContent.classList.remove('hidden');
   pendingContent.innerHTML = '';
 
