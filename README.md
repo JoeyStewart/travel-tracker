@@ -31,7 +31,8 @@ Enjoy!
 
 ## Preview of App:
 
-<img align="right" alt="file:///Users/josephstewart/Desktop/travel-tracker.gif">
+![image](https://github.com/JoeyStewart/travel-tracker/assets/140363136/f2d5fca1-1a16-4e58-8f6c-959b82bdcc54)
+
 
 ## Context:
 This solo project was the final project for mod2. It took me appoximately 70 hours to complete in its current iteration. There were many difficulties for me during this project. But in the end, I was able to overcome all the most difficult tasks that stood infront of me. I now believe I have a good base to continue to build off of in the future. Both literally in the project and in the knowledge I have accrued. I truly felt tested with this project but was able to put everything together in the end after a slow start to the module. 
