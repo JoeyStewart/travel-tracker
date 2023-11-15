@@ -31,7 +31,7 @@ Enjoy!
 
 ## Preview of App:
 
-![image](https://github.com/JoeyStewart/travel-tracker/assets/140363136/f2d5fca1-1a16-4e58-8f6c-959b82bdcc54)
+https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXhjcTlheHdnaDFyaGdyOTVpazJyZW5zaHR6bWo5angxazVhdzVncCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8IErTZysGiiye6ecXW/giphy.gif
 
 
 ## Context:
