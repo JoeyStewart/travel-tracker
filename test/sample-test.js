@@ -172,6 +172,82 @@ describe('renderPastTrips', () => {
     assert.deepEqual(result.destinations, destinations); 
     assert.equal(result.pastTrips.length, 0); 
 });
+//describe
+it('should render pending trips for a user with pending trips', () => {
+ 
+  const pendingTripsData = [
+    {"id":1,"userID":44,"destinationID":49,"travelers":1,"date":"2022/09/16","duration":8,"status":"pending","suggestedActivities":[]},
+    {"id":2,"userID":35,"destinationID":25,"travelers":5,"date":"2022/10/04","duration":18,"status":"pending","suggestedActivities":[]},
+  ];
+
+  const destinations = [
+    {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"},
+    {"id":2,"destination":"Stockholm, Sweden","estimatedLodgingCostPerDay":100,"estimatedFlightCostPerPerson":780,"image":"https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80","alt":"city with boats on the water during the day time"},
+  ];
+
+  const userID = 35;
+
+  const result = renderPendingTrips(pendingTripsData, destinations, userID);
+
+  assert.isObject(result);
+  assert.property(result, 'findUser');
+  assert.property(result, 'dest');
+
+  assert.isArray(result.findUser);
+  assert.deepEqual(result.dest, destinations);
+
+  assert.equal(result.findUser.length, 1);
+});
+
+it('should render no pending trips for a user with no pending trips', () => {
+  const pendingTripsData = [
+    {"id":1,"userID":44,"destinationID":49,"travelers":1,"date":"2022/09/16","duration":8,"status":"approved","suggestedActivities":[]},
+    {"id":2,"userID":36,"destinationID":25,"travelers":5,"date":"2022/10/04","duration":18,"status":"approved","suggestedActivities":[]},
+  ];
+
+  const destinations = [
+    {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"},
+    {"id":2,"destination":"Stockholm, Sweden","estimatedLodgingCostPerDay":100,"estimatedFlightCostPerPerson":780,"image":"https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80","alt":"city with boats on the water during the day time"},
+  ];
+
+  const userID = 35;
+
+  const result = renderPendingTrips(pendingTripsData, destinations, userID);
+
+  assert.isObject(result);
+  assert.property(result, 'findUser');
+  assert.property(result, 'dest');
+
+  assert.isArray(result.findUser);
+  assert.deepEqual(result.dest, destinations);
+
+  assert.equal(result.findUser.length, 0);
+});
+
+it('should render no pending trips for a user with no matching userID', () => {
+  const pendingTripsData = [
+    {"id":1,"userID":44,"destinationID":49,"travelers":1,"date":"2022/09/16","duration":8,"status":"pending","suggestedActivities":[]},
+    {"id":2,"userID":36,"destinationID":25,"travelers":5,"date":"2022/10/04","duration":18,"status":"pending","suggestedActivities":[]},
+  ];
+
+  const destinations = [
+    {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"},
+    {"id":2,"destination":"Stockholm, Sweden","estimatedLodgingCostPerDay":100,"estimatedFlightCostPerPerson":780,"image":"https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80","alt":"city with boats on the water during the day time"},
+  ];
+
+  const userID = 999;
+
+  const result = renderPendingTrips(pendingTripsData, destinations, userID);
+
+  assert.isObject(result);
+  assert.property(result, 'findUser');
+  assert.property(result, 'dest');
+
+  assert.isArray(result.findUser);
+  assert.deepEqual(result.dest, destinations);
+
+  assert.equal(result.findUser.length, 0); 
+});
 
 
 const renderApprovedTrips = (trips, destinations, userID) => {
@@ -191,4 +267,16 @@ const renderPastTrips = (trips, destinations, userID) => {
       .sort((a, b) => new Date(b.date) - new Date(a.date));
       console.log(pastTrips)
   return {pastTrips, destinations}
+}
+
+const renderPendingTrips = (trips, destinations, userID) => {
+  const dest = destinations;
+  const pendingTrips = trips.filter((trip) => trip.status === 'pending');
+  pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const findUser = pendingTrips.filter((element) => {
+    return parseInt(userID) === element.userID;
+  });
+
+  return { findUser, dest }
 }
