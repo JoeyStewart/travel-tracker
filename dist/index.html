@@ -10,9 +10,11 @@
   <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->
   <div class="login-container">
     <section class="login-page">
-      <label class="login-label">Please Login</label>
-      <input class="username" id="user-name" placeholder="Username">
-      <input class="password" id="pass-word" placeholder="Password">
+      <label class="login-label" aria-label="Login">Please Login</label>
+      <label class="username-label" for="user">Username</label>
+      <input class="username" id="user-name" aria-label="username" placeholder="Username">
+      <label class="password-label" for="pass">Password</label>
+      <input class="password" id="pass-word" aria-label="username" placeholder="Password">
       <button class="login-button">Login</button>
     </section>
   </div>
@@ -26,10 +28,9 @@
       <div class="form-container-hidden">
         <section class="form">
           <label class="input-label" for="date">Date</label>
-          <input class="date-input" name="date" id="date" placeholder="YYYY/MM/DD">
+          <input class="date-input" id="date" placeholder="YYYY/MM/DD">
           <label class="input-label" for="destinations">Destinations</label>
           <select class="destinations-input" name="pick-destination" id="destinations">
-            <!-- Options will be dynamically added using JavaScript -->
           </select>
           <label class="input-label" for="travelers">Number of Travelers</label>
           <input class="input-box travelers-input" name="pick-travelers" type="text" id="travelers" placeholder="# of Travelers">

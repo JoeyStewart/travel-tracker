@@ -18,8 +18,12 @@ let trips = [];
 let destination = [];
 
 function hideElement(element) {
-  console.log(element);
+  console.log('Hiding element:', element);
   element.style.display = "none";
+}
+
+function showElement(element) {
+  element.style.display = 'block'; // Or use 'flex' or any other appropriate display value
 }
 
 let approvedTripData = {};
@@ -28,7 +32,8 @@ let pastTripData = {};
 let moneySpent = {};
 let destinationInfo = {};
 
-submitButton.addEventListener("click", () => {
+submitButton.addEventListener("click", (event) => {
+  event.preventDefault();
   let tripObject = {
     id: generateRandomId(),
     userID: parseInt(userID),
@@ -49,7 +54,9 @@ submitButton.addEventListener("click", () => {
           .then((tripData) => {
             trips = tripData;
             renderPendingTrips(trips, destination, userID);
-            hideElement(tripForm);
+            hideElement(tripForm)
+            loginPageView.classList.add("hidden");
+    
           });
       });
   }

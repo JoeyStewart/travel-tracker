@@ -1,100 +1,73 @@
-# Webpack Starter Kit
+# Fit Lit Part 1 - Joey, Zen, Lex
 
-## Clone This Repo
+## Abstract:
 
-That's right, _clone_ not fork. You will use this repo multiple times, but you can only fork a repository once. So here is what you need to do to clone the repo and still be able to push changes to your repo:
+FitLit is a project that focuses on building an intuitive dashboard for activity tracking, inspired by fitness apps like Fitbit. It aims to use object and array prototype methods for data manipulation, create a user-friendly interface, write reusable code, and implement a comprehensive testing suite. The project involves processing data from activity trackers for multiple users over various days, presenting it in a clear and informative manner.
 
-1. Clone down this repo. Since you don't want to name your project "webpack-starter-kit", you can use an optional argument when you run `git clone` (you replace the `[...]` with the terminal command arguments): `git clone [remote-address] [what you want to name the repo]`
-1. Remove the default remote: `git remote rm origin` (notice that `git remote -v` not gives you back nothing)
-1. Create a new repo on GitHub with the name of `[what you want to name the repo]` to be consistent with naming
-1. Copy the address that you would use to clone down this repo - something like `git@github.com:...`
-1. Add this remote to your cloned down repo: `git remote add origin [address you copied in the previous step]` - do not include the brackets
+Web development tools, including Webpack, are used to streamline the project. It's vital to configure Webpack to locate files correctly and utilize import/export syntax for modular code. The project's requirements include using the FitLit Starter Kit repository and setting up testing with mocha and chai.
 
-Now try to commit something (just add a line in the README) and push it up to your new repo. If everything is setup correctly, you should see the changes on GitHub.
-commit
+FitLit consists of multiple iterations, focusing on different aspects of data processing and dashboard display, including user data, hydration, sleep, and activity. It encourages fetching data from provided endpoints instead of hardcoded data files. While third-party libraries like Day.js or Chart.js are optional, instructor approval is advised.
 
-## Setup
+The project also provides an extension option for building a robust testing suite, ensuring the project's quality and functionality. In summary, FitLit aims to deliver a user-friendly fitness dashboard for tracking activity data, fostering collaboration and professionalism among team members.
 
-After one person has gone through the steps of cloning down this repo and editing the remote, everyone should clone down the repo.
 
-Then install the library dependencies. Run:
+## Application link:
 
-```bash
-npm install
-```
+[Fit Lit GitHub Repository](https://github.com/JoeyStewart/travel-tracker)
 
-To verify that it is setup correctly, run `npm start` in your terminal. Go to `http://localhost:8080/` and you should see a page with the Turing logo image and a beautiful gradient background. If that's the case, you're good to go. Enter `control + c` in your terminal to stop the server at any time.
+## Installation Instructions:
+1. Click the green < code > button.
+2. Copy SSH to your clipboard.
+3. Open up the terminal.
+4. Change into the directory you wish to clone the app into with the cd command.
+5. Use the git clone command followed by pasting the copied SSH key.
+6. Change into the cloned directory with the cd command.
+7. Install dependencies by typing npm install into the terminal
+8. Start the webpack by typing npm start into the terminal
+9. Copy the link it provides that will look like this: http://localhost:8080/
+10. Paste that into your web browser of choice
+11. Enjoy!
 
-## Where to Add Your Code
+## Preview of App:
 
-### JavaScript
+![Fit Lit]()
 
-You have to be very intentional with where you add your feature code. This repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
 
-**Create all of your feature code files in the `src` directory.**
+## Context:
+This was the first group project in Mod 2 that we had to assemble. We used webpacks as well as fetch requests to store variables for future use and that allowed us to populate every field of this Fitness Tracker. We had 10 days to complete the project spent about 90 hours cumulatively working togeher collaboratively. Part of the difficulty of the project came from learning new concepts such as the fetch requests and then having to utilize them in the same day. Even in spite of this, the project was completed several days in advance of the project deadline allowing time for bug fixes. 
 
-Since code is separated into multiple files, you need to use the `import` and `export` syntax to share code across file.
+## Contributors:
 
-Here is a video that walks through some information about [import and export](https://www.youtube.com/watch?v=_3oSWwapPKQ). There are a lot of resources out there about `import` and `export`, and resources will sometimes call them `ES6 modules`. It's something you will see in React and beyond.
 
-### HTML
+Joey Stewart - https://github.com/JoeyStewart 
 
-Add the HTML you need in the `index.html` file in the `./dist` directory. There is some boilerplate HTML that exists from the start that you can modify.
 
-### Images
+## Learning Goals:
 
-Add your image files in the `src/images` directory. Similar to CSS files, you need to `import` image files in the JavaScript entry file (`scripts.js`). Then go into the HTML and add an `img` element with the `src` attribute pointing to the `images` directory. There is an example in the `index.html` file for you to see.
+* Use object and array prototype methods to perform data manipulation.
 
-## How to View Your Code in Action
+* Create a user interface that is easy to use and displays information in a clear way.
 
-In the terminal, run:
+* Write DRY, reusable code that follows SRP and trends toward function purity
+* Implement a robust testing suite using TDD.
 
-```bash
-npm start
-```
+* Make network requests to retrieve data.
 
-You will see a bunch of lines output to your terminal. One of those lines will be something like:
+* Collaborate productively and professionally as a team. Ensure all team members are able to be heard and contribute throughout the project.
 
-```bash
-Project is running at http://localhost:8080/
-```
+## Major Wins:
+### Joey:
+I was able to create a skeleton for our webpage with the use of html and css. These had been my weaker areas in previous projects, but I feel that I have vastly improved on my methods in the construction phase. I have also been able to move away from using divs. Using them more sparingly. Learning how to quickly do fetch requests with my group was enlightening and I feel I can do them with speed and few issues going forward.
 
-Go to `http://localhost:8080/` in your browser to view your code running in the browser.
+## Challenges and How We Overcame Them:
+### Joey:
+Understanding how to manipulate the DOM and use it effectively was a challenge. Balancing out how to import which functions to their needed folders left me confused during the earlier stages of the project. Once we had figured out a path in connecting our functions to the DOM, things became much smoother and easier for the rest of the project.
 
----
 
-## Test Files Organization
 
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
 
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `box-test.js`.
 
-## Running Your Tests
 
-Run your test suite using the command:
 
-```bash
-npm test
-```
 
-The test results will output to the terminal.
 
----
-
-## Linting Your Code
-
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
-
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory.
-
-## Webpack?
-
-If you look in the `package.json` file, you'll see one of the library dependencies called `webpack`. If you're interested in learning more about what Webpack is and how it works behind the scenes, take a look through the [Webpack configuration documentation](https://webpack.js.org/concepts/).
-
-## Deploying to GitHub Pages
-
-_If you are finished with the functionality and testing of your project_, then you can consider deploying your project to the web! This way anyone can play it without cloning down your repo.
-
-[GitHub Pages](https://pages.github.com/) is a great way to deploy your project to the web. Don't worry about this until your project is free of bugs and well tested!
-
-If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to get your project live on GitHub Pages.

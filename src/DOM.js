@@ -6,7 +6,7 @@ const pastContent = document.querySelector('.past-content')
 const moneyContent = document.querySelector('.money-content')
 const destinationContent = document.querySelector('.destination-content')
 
-//functions
+// functions
 const renderApprovedTrips = (trips, destinations, userID) => {
   upcomingContent.classList.remove('hidden');
   upcomingContent.innerHTML = '';
@@ -110,10 +110,6 @@ const renderMoney = (trips, destinations, userID) => {
             const flightCost = destination.estimatedFlightCostPerPerson * trip.travelers;
             const tripCost = lodging + flightCost
             const agencyFee = (tripCost * .10) + tripCost
-            // moneyContent.innerHTML += `
-            //     <div class="trip-info">
-            //       <p>Total cost for ${destination.destination}: $${agencyFee.toFixed(2)}</p>
-            //     </div>`;
 
             totalCost += agencyFee;
         } 
@@ -126,7 +122,9 @@ const renderMoney = (trips, destinations, userID) => {
         </div>`;
 };
 
-function findUserApproved(findUser, dest) {
+export function findUserApproved(findUser, dest) {
+  upcomingContent.classList.remove('hidden');
+  upcomingContent.innerHTML = '';
   if (findUser.length > 0) {
     findUser.forEach(mostRecentApprovedTrip => {
       const showDestination = dest.find(destination => destination.id === mostRecentApprovedTrip.destinationID);
@@ -147,7 +145,6 @@ function findUserApproved(findUser, dest) {
 
 function findUserPending(findUser, dest) {
   if (findUser.length > 0) {
-    // Clear existing content
     pendingContent.innerHTML = '';
 
     findUser.forEach(mostRecentPendingTrip => {
@@ -165,11 +162,6 @@ function findUserPending(findUser, dest) {
           <p>Duration: ${mostRecentPendingTrip.duration} Days</p>
           <p>=================================</p>
         `;
-
-        // Log statements for debugging
-        console.log('Adding tripInfo element:', tripInfo);
-
-        // Append each tripInfo element directly
         pendingContent.appendChild(tripInfo);
       }
     });
@@ -185,4 +177,110 @@ export {
     renderMoney
 }
 
+import chai from 'chai';
+const { expect } = chai;
+
+  
+
+// const trips = [
+//   {"id":1,"userID":44,"destinationID":49,"travelers":1,"date":"2022/09/16","duration":8,"status":"approved","suggestedActivities":[]},
+//   {"id":2,"userID":35,"destinationID":25,"travelers":5,"date":"2022/10/04","duration":18,"status":"approved","suggestedActivities":[]},
+// ];
+
+// const destinations = [
+//   {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"},
+//   {"id":2,"destination":"Stockholm, Sweden","estimatedLodgingCostPerDay":100,"estimatedFlightCostPerPerson":780,"image":"https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80","alt":"city with boats on the water during the day time"},
+// ];
+
+describe('renderApprovedTrips', () => {
+  beforeEach(() => {
+    upcomingContent.classList.remove.mockClear();
+    upcomingContent.innerHTML = '';
+  });
+
+  it('renders approved trips for a user', () => {
+    renderApprovedTrips(trips, destinations, 35);
+
+
+    expect(upcomingContent.classList.remove).toHaveBeenCalledWith('hidden');
+    expect(upcomingContent.innerHTML).toContain('Stockholm, Sweden');
+    expect(upcomingContent.innerHTML).toContain('2022/10/04');
+    expect(upcomingContent.innerHTML).toContain('18 Days');
+    expect(upcomingContent.innerHTML).not.toContain('Lima, Peru');
+  });
+
+  it('handles case with no approved trips for a user', () => {
+    renderApprovedTrips(trips, destinations, 999); 
+
+    expect(upcomingContent.classList.remove).toHaveBeenCalledWith('hidden');
+    expect(upcomingContent.innerHTML).toEqual('');
+  });
+});
+
+
+describe('renderApprovedTrips', () => {
+  beforeEach(() => {
+    upcomingContent.classList.remove('hidden');
+    upcomingContent.innerHTML = '';
+  });
+
+  it('renders approved trips for a user', () => {
+    renderApprovedTrips(trips, destinations, 35);
+
+    expect(upcomingContent.classList.contains('hidden')).toBeFalsy();
+    expect(upcomingContent.innerHTML).toContain('Stockholm, Sweden');
+    expect(upcomingContent.innerHTML).toContain('2022/10/04');
+    expect(upcomingContent.innerHTML).toContain('18 Days');
+    expect(upcomingContent.innerHTML).not.toContain('Lima, Peru');
+  });
+});
+
+describe('renderPastTrips', () => {
+  beforeEach(() => {
+    pastContent.classList.remove('hidden');
+    pastContent.innerHTML = '';
+  });
+
+  it('renders past trips for a user', () => {
+    renderPastTrips(trips, destinations, 44);
+    expect(pastContent.classList.contains('hidden')).toBeFalsy();
+  });
+
+});
+
+describe('renderPendingTrips', () => {
+  beforeEach(() => {
+    pendingContent.classList.remove('hidden');
+    pendingContent.innerHTML = '';
+  });
+
+  it('renders pending trips for a user', () => {
+    renderPendingTrips(trips, destinations, 35);
+    expect(pendingContent.classList.contains('hidden')).toBeFalsy();
+  });
+
+});
+
+// const renderApprovedTrips = (trips, destinations, userID) => {
+//   upcomingContent.classList.remove('hidden');
+//   upcomingContent.innerHTML = '';
+
+//   const approvedTrips = trips.filter((trip) => trip.status === 'approved' && trip.userID === userID);
+//   approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+//   approvedTrips.forEach((approvedTrip) => {
+//     const showDestination = destinations.find((destination) => destination.id === approvedTrip.destinationID);
+
+//     if (showDestination) {
+//       upcomingContent.innerHTML += `
+//         <div class="trip-info">
+//           <p>=================================</p>
+//           <p>${showDestination.destination}</p>
+//           <p>Date: ${approvedTrip.date}</p>
+//           <p>Duration: ${approvedTrip.duration} Days</p>
+//           <p>=================================</p>
+//         </div>`;
+//     }
+//   });
+// };
 
