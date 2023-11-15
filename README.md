@@ -31,7 +31,7 @@ Enjoy!
 
 ## Preview of App:
 
-![Fit Lit]()
+![Travel Tracker](Travel-tracker.gif)
 
 
 ## Context:
