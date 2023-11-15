@@ -15,14 +15,12 @@ const renderApprovedTrips = (trips, destinations, userID) => {
   const findUser = approvedTrips.filter((element) => {
     return parseInt(userID) === element.userID;
   });
-  console.log(findUser)
   return { findUser, dest }
 };
 
 function findUserApproved({ findUser, dest }) {
   upcomingContent.classList.remove('hidden');
   upcomingContent.innerHTML = '';
-console.log(findUser)
   if (findUser.length > 0) {
     findUser.forEach(mostRecentApprovedTrip => {
       const showDestination = dest.find(destination => destination.id === mostRecentApprovedTrip.destinationID);
@@ -81,9 +79,12 @@ const renderPastTrips = (trips, destinations, userID) => {
   const pastTrips = trips
       .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
       .sort((a, b) => new Date(b.date) - new Date(a.date));
-  return pastTrips, destinations
+      console.log(pastTrips)
+  return {pastTrips, destinations}
 }
-function postPastTrips(pastTrips, destinations){
+
+function postPastTrips({pastTrips, destinations}){
+  if(pastTrips.length > 0){
   pastTrips.forEach(pastTrip => {
       const showDestination = destinations.find(destination => destination.id === pastTrip.destinationID);
 
@@ -98,6 +99,7 @@ function postPastTrips(pastTrips, destinations){
               </div>`;
       }
   });
+  }
 };
 
   
