@@ -40,7 +40,8 @@ function findUserApproved({ findUser, dest }) {
     });
   }
 }
-  const renderPastTrips = (trips, destinations, userID) => {
+  
+const renderPastTrips = (trips, destinations, userID) => {
   const pastTrips = trips
       .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
       .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -105,16 +106,20 @@ function findUserPending({ findUser, dest }) {
 }
 
 const renderDestinationInfo = (trips, destinations, userID) => {
+  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
+  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
+  
+  const latestTrip = userTrips.length > 0 ? userTrips[0] : null;
+  
+  const matchingDestination = latestTrip ? destinations.find(destination => destination.id === latestTrip.destinationID) : null;
+  
+  return { matchingDestination, latestTrip };
+};
+
+function postDestinationInfo({matchingDestination,  latestTrip}){
   destinationContent.classList.remove('hidden');
   destinationContent.innerHTML = '';
-  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
-  let totalCost = 0;
-  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
-  console.log(userTrips)
-  const latestTrip = userTrips[0];
-  console.log(latestTrip)
-  const matchingDestination = destinations.find(destination => destination.id === latestTrip.destinationID);
-
+let totalCost = 0;
   if (matchingDestination) {
     const lodging = matchingDestination.estimatedLodgingCostPerDay * latestTrip.duration;
     const flightCost = matchingDestination.estimatedFlightCostPerPerson * latestTrip.travelers;
@@ -177,7 +182,8 @@ export {
     renderMoney,
     findUserPending,
     findUserApproved,
-    postPastTrips
+    postPastTrips,
+    postDestinationInfo
 }
 
 import chai from 'chai';
