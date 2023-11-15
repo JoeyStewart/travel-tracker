@@ -1,21 +1,7 @@
 
-// import chai from 'chai';
 const { assert } = require('chai');
-// import{renderPendingTrips, renderApprovedTrips, renderPastTrips,  } from './DOM.js'
 
 
-
-const trips = [
-  {"id":1,"userID":44,"destinationID":49,"travelers":1,"date":"2022/09/16","duration":8,"status":"approved","suggestedActivities":[]},
-  {"id":2,"userID":35,"destinationID":25,"travelers":5,"date":"2022/10/04","duration":18,"status":"approved","suggestedActivities":[]},
-];
-
-const destinations = [
-  {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"},
-  {"id":2,"destination":"Stockholm, Sweden","estimatedLodgingCostPerDay":100,"estimatedFlightCostPerPerson":780,"image":"https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80","alt":"city with boats on the water during the day time"},
-];
-
-const  userID = 2;
 
 
 describe('renderApprovedTrips', () => {
@@ -123,7 +109,7 @@ describe('renderPastTrips', () => {
     assert.equal(result.pastTrips.length,  1);
 
   });
-
+  describe('renderPastTrips', () => {
   it('should render no past trips and return an object with empty pastTrips and destinations properties', () => {
     const tripsWithoutPast = [
       {"id":3,"userID":44,"destinationID":49,"travelers":1,"date":"2023/09/16","duration":8,"status":"approved","suggestedActivities":[]},
@@ -171,8 +157,11 @@ describe('renderPastTrips', () => {
     assert.isArray(result.pastTrips);
     assert.deepEqual(result.destinations, destinations); 
     assert.equal(result.pastTrips.length, 0); 
-});
-//describe
+  });
+})
+
+
+describe('renderPendingTrips', () => {
 it('should render pending trips for a user with pending trips', () => {
  
   const pendingTripsData = [
@@ -247,7 +236,80 @@ it('should render no pending trips for a user with no matching userID', () => {
   assert.deepEqual(result.dest, destinations);
 
   assert.equal(result.findUser.length, 0); 
+  });
+})
+
+
+describe('renderDestinationInfo', () => {
+it('should render destination info for a user with trips', () => {
+  const userTripsData = [
+    {"id":1,"userID":44,"destinationID":49,"travelers":1,"date":"2022/09/16","duration":8,"status":"approved","suggestedActivities":[]},
+    {"id":2,"userID":44,"destinationID":25,"travelers":5,"date":"2022/10/04","duration":18,"status":"approved","suggestedActivities":[]},
+  ];
+
+  const destinations = [
+    {"id":49,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"},
+    {"id":25,"destination":"Stockholm, Sweden","estimatedLodgingCostPerDay":100,"estimatedFlightCostPerPerson":780,"image":"https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80","alt":"city with boats on the water during the day time"},
+  ];
+
+  const userID = 44;
+
+  const result = renderDestinationInfo(userTripsData, destinations, userID);
+
+  assert.isObject(result);
+  assert.property(result, 'matchingDestination');
+  assert.property(result, 'latestTrip');
+
+
+  assert.deepEqual(result.matchingDestination, destinations[1]); 
+  assert.deepEqual(result.latestTrip, userTripsData[1]);
 });
+
+it('should render null values for a user with no trips', () => {
+  const userTripsData = [];
+
+  const destinations = [
+    {"id": 49, "destination": "Lima, Peru", "estimatedLodgingCostPerDay": 70, "estimatedFlightCostPerPerson": 400, "image": "https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80", "alt": "overview of city buildings with a clear sky"},
+    {"id": 25, "destination": "Stockholm, Sweden", "estimatedLodgingCostPerDay": 100, "estimatedFlightCostPerPerson": 780, "image": "https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80", "alt": "city with boats on the water during the day time"},
+  ];
+
+  const userID = 44;
+
+  const result = renderDestinationInfo(userTripsData, destinations, userID);
+
+  assert.isObject(result);
+  assert.property(result, 'matchingDestination');
+  assert.property(result, 'latestTrip');
+
+  assert.isNull(result.matchingDestination);
+  assert.isNull(result.latestTrip); 
+});
+
+it('should render null values for a user with no matching userID', () => {
+  const userTripsData = [
+    {"id": 1, "userID": 10, "destinationID": 49, "travelers": 1, "date": "2022/09/16", "duration": 8, "status": "approved", "suggestedActivities": []},
+    {"id": 2, "userID": 20, "destinationID": 25, "travelers": 5, "date": "2022/10/04", "duration": 18, "status": "approved", "suggestedActivities": []},
+  ];
+
+  const destinations = [
+    {"id": 49, "destination": "Lima, Peru", "estimatedLodgingCostPerDay": 70, "estimatedFlightCostPerPerson": 400, "image": "https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80", "alt": "overview of city buildings with a clear sky"},
+    {"id": 25, "destination": "Stockholm, Sweden", "estimatedLodgingCostPerDay": 100, "estimatedFlightCostPerPerson": 780, "image": "https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80", "alt": "city with boats on the water during the day time"},
+  ];
+
+  const nonMatchingUserID = 30;
+
+  const result = renderDestinationInfo(userTripsData, destinations, nonMatchingUserID);
+
+  assert.isObject(result);
+  assert.property(result, 'matchingDestination');
+  assert.property(result, 'latestTrip');
+
+  assert.isNull(result.matchingDestination); 
+  assert.isNull(result.latestTrip); 
+  });
+})
+
+
 
 
 const renderApprovedTrips = (trips, destinations, userID) => {
@@ -280,3 +342,14 @@ const renderPendingTrips = (trips, destinations, userID) => {
 
   return { findUser, dest }
 }
+
+const renderDestinationInfo = (trips, destinations, userID) => {
+  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
+  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
+  
+  const latestTrip = userTrips.length > 0 ? userTrips[0] : null;
+  
+  const matchingDestination = latestTrip ? destinations.find(destination => destination.id === latestTrip.destinationID) : null;
+  
+  return { matchingDestination, latestTrip };
+};

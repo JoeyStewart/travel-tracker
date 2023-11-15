@@ -8,8 +8,6 @@ const destinationContent = document.querySelector('.destination-content')
 
 // functions
 const renderApprovedTrips = (trips, destinations, userID) => {
-  upcomingContent.classList.remove('hidden');
-  upcomingContent.innerHTML = '';
   const dest = destinations
   const approvedTrips = trips.filter((trip) => trip.status === 'approved');
   approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -17,17 +15,42 @@ const renderApprovedTrips = (trips, destinations, userID) => {
   const findUser = approvedTrips.filter((element) => {
     return parseInt(userID) === element.userID;
   });
-  findUserApproved(findUser, dest);
+  return { findUser, dest }
 };
 
-const renderPastTrips = (trips, destinations, userID) => {
-  pastContent.classList.remove('hidden');
-  pastContent.innerHTML = '';
+function findUserApproved({ findUser, dest }) {
+  upcomingContent.classList.remove('hidden');
+  upcomingContent.innerHTML = '';
+  if (findUser.length > 0) {
+    findUser.forEach(mostRecentApprovedTrip => {
+      const showDestination = dest.find(destination => destination.id === mostRecentApprovedTrip.destinationID);
+
+      if (showDestination) {
+        const tripInfo = document.createElement('div');
+        tripInfo.classList.add('trip-info');
+        tripInfo.innerHTML = `
+          <p>=================================</p>
+          <p>${showDestination.destination}</p>
+          <p>Date: ${mostRecentApprovedTrip.date}</p>
+          <p>Duration: ${mostRecentApprovedTrip.duration} Days</p>
+          <p>=================================</p>
+        `;
+        upcomingContent.appendChild(tripInfo);
+      }
+    });
+  }
+}
   
+const renderPastTrips = (trips, destinations, userID) => {
   const pastTrips = trips
       .filter(trip => trip.status === "approved" && trip.userID === parseInt(userID) && new Date(trip.date) < new Date())
       .sort((a, b) => new Date(b.date) - new Date(a.date));
+      console.log(pastTrips)
+  return {pastTrips, destinations}
+}
 
+function postPastTrips({pastTrips, destinations}){
+  if(pastTrips.length > 0){
   pastTrips.forEach(pastTrip => {
       const showDestination = destinations.find(destination => destination.id === pastTrip.destinationID);
 
@@ -42,34 +65,61 @@ const renderPastTrips = (trips, destinations, userID) => {
               </div>`;
       }
   });
+  }
 };
+
   
 const renderPendingTrips = (trips, destinations, userID) => {
-  pendingContent.classList.remove('hidden')
-  pendingContent.innerHTML = '';
-
-  const dest = destinations
+  const dest = destinations;
   const pendingTrips = trips.filter((trip) => trip.status === 'pending');
   pendingTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const findUser = pendingTrips.filter((element) => {
-      return parseInt(userID) === element.userID;
+    return parseInt(userID) === element.userID;
   });
 
-  findUserPending(findUser, dest);
+  return { findUser, dest }
+}
+
+function findUserPending({ findUser, dest }) {
+  pendingContent.classList.remove('hidden');
+  pendingContent.innerHTML = '';
+
+  if (findUser.length > 0) {
+    findUser.forEach(mostRecentPendingTrip => {
+      const showDestination = dest.find(destination => destination.id === mostRecentPendingTrip.destinationID);
+
+      if (showDestination) {
+        const tripInfo = document.createElement('div');
+        tripInfo.classList.add('trip-info');
+        tripInfo.innerHTML = `
+          <p>=================================</p>
+          <p>${showDestination.destination}</p>
+          <p>Date: ${mostRecentPendingTrip.date}</p>
+          <p>Duration: ${mostRecentPendingTrip.duration} Days</p>
+          <p>=================================</p>
+        `;
+        pendingContent.appendChild(tripInfo);
+      }
+    });
+  }
 }
 
 const renderDestinationInfo = (trips, destinations, userID) => {
+  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
+  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
+  
+  const latestTrip = userTrips.length > 0 ? userTrips[0] : null;
+  
+  const matchingDestination = latestTrip ? destinations.find(destination => destination.id === latestTrip.destinationID) : null;
+  
+  return { matchingDestination, latestTrip };
+};
+
+function postDestinationInfo({matchingDestination,  latestTrip}){
   destinationContent.classList.remove('hidden');
   destinationContent.innerHTML = '';
-  const userTrips = trips.filter(trip => trip.userID === parseInt(userID));
-  let totalCost = 0;
-  userTrips.sort((a, b) => trips.indexOf(b) - trips.indexOf(a));
-  console.log(userTrips)
-  const latestTrip = userTrips[0];
-  console.log(latestTrip)
-  const matchingDestination = destinations.find(destination => destination.id === latestTrip.destinationID);
-
+let totalCost = 0;
   if (matchingDestination) {
     const lodging = matchingDestination.estimatedLodgingCostPerDay * latestTrip.duration;
     const flightCost = matchingDestination.estimatedFlightCostPerPerson * latestTrip.travelers;
@@ -122,51 +172,6 @@ const renderMoney = (trips, destinations, userID) => {
         </div>`;
 };
 
-export function findUserApproved(findUser, dest) {
-  upcomingContent.classList.remove('hidden');
-  upcomingContent.innerHTML = '';
-  if (findUser.length > 0) {
-    findUser.forEach(mostRecentApprovedTrip => {
-      const showDestination = dest.find(destination => destination.id === mostRecentApprovedTrip.destinationID);
-
-    if (showDestination) {
-      upcomingContent.innerHTML += `
-        <div class="trip-info">
-          <p>=================================</p>
-          <p>${showDestination.destination}</p>
-          <p>Date: ${mostRecentApprovedTrip.date}</p>
-          <p>Duration: ${mostRecentApprovedTrip.duration} Days</p>
-          <p>=================================</p>
-          </div>`;
-      }
-    })
-  }
-}
-
-function findUserPending(findUser, dest) {
-  if (findUser.length > 0) {
-    pendingContent.innerHTML = '';
-
-    findUser.forEach(mostRecentPendingTrip => {
-      const showDestination = dest.find(destination => destination.id === mostRecentPendingTrip.destinationID);
-
-      if (showDestination) {
-        console.log('showDestination:', showDestination);
-
-        const tripInfo = document.createElement('div');
-        tripInfo.classList.add('trip-info');
-        tripInfo.innerHTML = `
-          <p>=================================</p>
-          <p>${showDestination.destination}</p>
-          <p>Date: ${mostRecentPendingTrip.date}</p>
-          <p>Duration: ${mostRecentPendingTrip.duration} Days</p>
-          <p>=================================</p>
-        `;
-        pendingContent.appendChild(tripInfo);
-      }
-    });
-  }
-}
 
 
 export {
@@ -174,113 +179,15 @@ export {
     renderPendingTrips,
     renderPastTrips,
     renderDestinationInfo,
-    renderMoney
+    renderMoney,
+    findUserPending,
+    findUserApproved,
+    postPastTrips,
+    postDestinationInfo
 }
 
 import chai from 'chai';
 const { expect } = chai;
 
-  
 
-// const trips = [
-//   {"id":1,"userID":44,"destinationID":49,"travelers":1,"date":"2022/09/16","duration":8,"status":"approved","suggestedActivities":[]},
-//   {"id":2,"userID":35,"destinationID":25,"travelers":5,"date":"2022/10/04","duration":18,"status":"approved","suggestedActivities":[]},
-// ];
-
-// const destinations = [
-//   {"id":1,"destination":"Lima, Peru","estimatedLodgingCostPerDay":70,"estimatedFlightCostPerPerson":400,"image":"https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80","alt":"overview of city buildings with a clear sky"},
-//   {"id":2,"destination":"Stockholm, Sweden","estimatedLodgingCostPerDay":100,"estimatedFlightCostPerPerson":780,"image":"https://images.unsplash.com/photo-1560089168-6516081f5bf1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80","alt":"city with boats on the water during the day time"},
-// ];
-
-describe('renderApprovedTrips', () => {
-  beforeEach(() => {
-    upcomingContent.classList.remove.mockClear();
-    upcomingContent.innerHTML = '';
-  });
-
-  it('renders approved trips for a user', () => {
-    renderApprovedTrips(trips, destinations, 35);
-
-
-    expect(upcomingContent.classList.remove).toHaveBeenCalledWith('hidden');
-    expect(upcomingContent.innerHTML).toContain('Stockholm, Sweden');
-    expect(upcomingContent.innerHTML).toContain('2022/10/04');
-    expect(upcomingContent.innerHTML).toContain('18 Days');
-    expect(upcomingContent.innerHTML).not.toContain('Lima, Peru');
-  });
-
-  it('handles case with no approved trips for a user', () => {
-    renderApprovedTrips(trips, destinations, 999); 
-
-    expect(upcomingContent.classList.remove).toHaveBeenCalledWith('hidden');
-    expect(upcomingContent.innerHTML).toEqual('');
-  });
-});
-
-
-describe('renderApprovedTrips', () => {
-  beforeEach(() => {
-    upcomingContent.classList.remove('hidden');
-    upcomingContent.innerHTML = '';
-  });
-
-  it('renders approved trips for a user', () => {
-    renderApprovedTrips(trips, destinations, 35);
-
-    expect(upcomingContent.classList.contains('hidden')).toBeFalsy();
-    expect(upcomingContent.innerHTML).toContain('Stockholm, Sweden');
-    expect(upcomingContent.innerHTML).toContain('2022/10/04');
-    expect(upcomingContent.innerHTML).toContain('18 Days');
-    expect(upcomingContent.innerHTML).not.toContain('Lima, Peru');
-  });
-});
-
-describe('renderPastTrips', () => {
-  beforeEach(() => {
-    pastContent.classList.remove('hidden');
-    pastContent.innerHTML = '';
-  });
-
-  it('renders past trips for a user', () => {
-    renderPastTrips(trips, destinations, 44);
-    expect(pastContent.classList.contains('hidden')).toBeFalsy();
-  });
-
-});
-
-describe('renderPendingTrips', () => {
-  beforeEach(() => {
-    pendingContent.classList.remove('hidden');
-    pendingContent.innerHTML = '';
-  });
-
-  it('renders pending trips for a user', () => {
-    renderPendingTrips(trips, destinations, 35);
-    expect(pendingContent.classList.contains('hidden')).toBeFalsy();
-  });
-
-});
-
-// const renderApprovedTrips = (trips, destinations, userID) => {
-//   upcomingContent.classList.remove('hidden');
-//   upcomingContent.innerHTML = '';
-
-//   const approvedTrips = trips.filter((trip) => trip.status === 'approved' && trip.userID === userID);
-//   approvedTrips.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-//   approvedTrips.forEach((approvedTrip) => {
-//     const showDestination = destinations.find((destination) => destination.id === approvedTrip.destinationID);
-
-//     if (showDestination) {
-//       upcomingContent.innerHTML += `
-//         <div class="trip-info">
-//           <p>=================================</p>
-//           <p>${showDestination.destination}</p>
-//           <p>Date: ${approvedTrip.date}</p>
-//           <p>Duration: ${approvedTrip.duration} Days</p>
-//           <p>=================================</p>
-//         </div>`;
-//     }
-//   });
-// };
 

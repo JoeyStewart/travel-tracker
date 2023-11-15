@@ -1,7 +1,7 @@
 import './css/styles.css';
 import './images/turing-logo.png';
 import { fetchTripsData, fetchDestinationData, postTripData } from './apiCalls';
-import { renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo } from './DOM';
+import { postDestinationInfo, postPastTrips, renderApprovedTrips, renderPendingTrips, renderPastTrips, renderMoney, renderDestinationInfo, findUserPending, findUserApproved } from './DOM';
 
 const dateInput = document.querySelector(".date-input");
 const destinationsInput = document.querySelector("#destinations");
@@ -54,7 +54,7 @@ submitButton.addEventListener("click", (event) => {
           .then((tripData) => {
             trips = tripData;
             renderPendingTrips(trips, destination, userID);
-            hideElement(tripForm)
+            // hideElement(tripForm)
             loginPageView.classList.add("hidden");
     
           });
@@ -117,19 +117,22 @@ loginButton.addEventListener('click', () => {
 const populateApproved = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
-  renderApprovedTrips(tripsData, destinationData, userID);
+  const renderedTrips = renderApprovedTrips(tripsData, destinationData, userID);
+  findUserApproved(renderedTrips);
 }
 
 const populatePending = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
-  renderPendingTrips(tripsData, destinationData, userID);
+  const pendingTrips = renderPendingTrips(tripsData, destinationData, userID);
+  findUserPending(pendingTrips)
 }
 
 const populatePast = (data, userID) => {
   const tripsData = data.trips;
   const destinationData = data.destinations
-  renderPastTrips(tripsData, destinationData, userID)
+  const renderPast = renderPastTrips(tripsData, destinationData, userID)
+  postPastTrips(renderPast)
 }
 
 const populateMoney = (data, userID) => {
@@ -141,7 +144,8 @@ const populateMoney = (data, userID) => {
 const populateDestinationInfo = (data, id) => {
   const tripsData = data.trips;
   const destinationData = data.destinations;
-  renderDestinationInfo(tripsData, destinationData, id)
+  const postDest = renderDestinationInfo(tripsData, destinationData, id)
+  postDestinationInfo(postDest)
 }
 
 const generateRandomId = () => {
